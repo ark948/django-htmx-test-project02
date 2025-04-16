@@ -1,3 +1,4 @@
 1. Initializing django project
 2. Adding new app
 3. Configuring templates dir in core/settings.py
+4. Custom User and accounts app
