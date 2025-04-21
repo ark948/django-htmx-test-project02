@@ -41,3 +41,8 @@ to add daisyUI:
 - include daisyUI in either tailwind.config.js file or postcss.config.js
 - add a daisyui component class to an element in index.html to try it out
 (this package has an optimization feature, suitable for production)
+
+
+
+7. moving templates folder to root project folder
+- update TEMPLATES config var in settings.py
