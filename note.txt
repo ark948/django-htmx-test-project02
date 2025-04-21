@@ -6,3 +6,38 @@
 username: user
 email: user@admin.com
 password: 123
+
+
+6. adding django-tailwind
+django-tailwind will also install
+django-browser-reload (for automatic reload)
+- add 'tailwind' to installed_apps
+> python manage.py tailwind init
+(some new packages will be installed)
+(will ask for a new for a new app, i'll kept the default 'theme')
+(a new app named 'theme' must be now exist in root project dir)
+- add it to installed_apps
+- add the following config vars to settings.py
+TAILWIND_APP_NAME = 'theme'
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
+NPM_BIN_PATH = "npm.cmd"
+> python manage.py tailwind install
+(this package requires npm to be installed)
+- add {% load static tailwind_tags %} to your base.html (to the top of it)
+- add {% tailwind_css %} to end of the head tag of base.html
+to enable automatic reload:
+- add 'django_browser_reload' to settings.py > installed_apps
+- add django_browser_reload middleware to MIDDLEWARES
+- add django_browser_reload url to root urls
+to run the tailwind dev server:
+> python manage.py tailwind start
+- in a seperate shell, run django dev server, add some tailwind css classes to index template to test it out
+- (browser should refresh automatically)
+to add daisyUI:
+- stop the tailwind dev server, navigate to theme_app/static_src/ and paste the installation script from daisyUI:
+> npm i -D daisyui@latest
+- include daisyUI in either tailwind.config.js file or postcss.config.js
+- add a daisyui component class to an element in index.html to try it out
+(this package has an optimization feature, suitable for production)
