@@ -32,9 +32,10 @@ def login_user(request: HttpRequest):
     else:
         print("\n\nWRONG CREDENTIALS\n\n")
     context = { 'user': user }
-    resposne = render(request, 'accounts/partials/user-info-partial.html', context=context)
+    resposne = render(request, 'accounts/partials/user-status-partials/logged-in.html#user-data', context=context)
     resposne['HX-Trigger'] = 'success'
     return resposne
+
 
 
 def logout_user(request: HttpRequest):

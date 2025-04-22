@@ -1,4 +1,5 @@
 {% load static tailwind_tags %}
+{% load partials %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,10 +13,9 @@
 </head>
 <body>
     <div class="m-12">
-        <div id="user-status">
-            
+        <div id="user-login-status">
+            {% include 'accounts/partials/user-status.html' %}
         </div>
-    {% include 'accounts/partials/user-info.html' %}
     {% include 'accounts/partials/signup-modal-form.html' %}
     {% include 'accounts/partials/login-modal-form.html' %}
     {% include 'accounts/partials/logout-confirm-modal.html' %}

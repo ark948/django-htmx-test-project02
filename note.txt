@@ -79,3 +79,7 @@ this partial will be returned upon successful htmx request to login
 id was given to the part that will be replaced by response partial
 
 making progresss...
+
+(did some research, django-template-partials came up)
+apparently we can return only a bit of context to the same template with this package, something like that...
+

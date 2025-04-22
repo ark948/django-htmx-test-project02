@@ -4,8 +4,8 @@
         <h3 class="font-bold text-lg mb-4">Login now</h3>
         <form
             hx-post="{% url 'accounts:login' %}"
-            hx-target="#user-status"
-            hx-swap="innerHTML"
+            hx-target="#user-login-status"
+            hx-swap="outerHTML"
             hx-on:success="login_modal.close(); this.reset();"
             class="mb-4">
             {% csrf_token %}
