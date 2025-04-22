@@ -83,3 +83,7 @@ making progresss...
 (did some research, django-template-partials came up)
 apparently we can return only a bit of context to the same template with this package, something like that...
 
+login is basically ok, now just need to fix logout
+logout throws csrf_token error
+installing django-htmx
+

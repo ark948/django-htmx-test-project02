@@ -3,6 +3,9 @@
 {% if user.username and user.email %}
     {{ user.username }}
     {{ user.email }}
+    <button class="btn btn-primary btn-sm mb-4" onclick="logout_modal.showModal()">
+        Logout
+    </button>
 {% endif %}
 {% partialdef user-data %}
     {{ user.username }}

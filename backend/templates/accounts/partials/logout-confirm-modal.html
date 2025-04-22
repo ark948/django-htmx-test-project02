@@ -1,9 +1,10 @@
 <dialog id="logout_modal" class="modal">
     <div class="modal-box">
-
         <h3 class="font-bold text-lg mb-4">Are you sure about this?</h3>
+        <h3 class="font-bold text-lg mb-4 text-red-500">Page will be refreshed.</h3>
         <form
-            hx-post="{% url 'accounts:logout' %}"
+            method="post"
+            action="{% url 'accounts:logout' %}"
             class="mb-4">
             {% csrf_token %}
             <div class="modal-action">

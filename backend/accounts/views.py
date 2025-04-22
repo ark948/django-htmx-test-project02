@@ -1,10 +1,12 @@
-from django.shortcuts import render
-from django.http.response import HttpResponse
+from django.shortcuts import render, redirect
+from django.urls import reverse
+from django.http.response import HttpResponse, HttpResponseRedirect
 from django.http.request import HttpRequest
-from django.views.decorators.http import require_http_methods
+from django.views.decorators.http import require_http_methods, require_GET, require_POST
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
+from django_htmx.http import HttpResponseClientRedirect
 
 from .models import CustomUser
 
@@ -38,6 +40,7 @@ def login_user(request: HttpRequest):
 
 
 
-def logout_user(request: HttpRequest):
+def logout_user(request: HttpRequest) -> None:
     if request.method == "POST":
         logout(request)
+    return redirect(reverse('home:index'))
