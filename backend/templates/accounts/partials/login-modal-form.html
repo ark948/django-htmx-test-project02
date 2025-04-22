@@ -1,0 +1,30 @@
+<dialog id="login_modal" class="modal">
+    <div class="modal-box">
+
+        <h3 class="font-bold text-lg mb-4">Login now</h3>
+        <form
+            hx-post="{% url 'accounts:login' %}"
+            hx-target="#user-status"
+            hx-swap="innerHTML"
+            hx-on:success="login_modal.close(); this.reset();"
+            class="mb-4">
+            {% csrf_token %}
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">Username:</span>
+                </label>
+                <input type="text" placeholder="Username" class="input" name="username" autocomplete="username" />
+            </div>
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">Password:</span>
+                </label>
+                <input type="password" placeholder="Password" class="input" name="password" autocomplete="current-password" />
+            </div>
+            <div class="modal-action">
+                <button type="button" class="btn" onclick="login_modal.close()">Cancel</button>
+                <button type="submit" class="btn btn-primary btn-sm">Login</button>
+            </div>
+        </form>
+    </div>
+</dialog>

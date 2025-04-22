@@ -1,0 +1,39 @@
+<dialog id="signup_moda" class="modal">
+    <div class="modal-box">
+
+        <h3 class="font-bold text-lg mb-4">Register now.</h3>
+        <form 
+            hx-post="{% url 'accounts:signup' %}"
+            class="mb-4">
+            {% csrf_token %}
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">Username:</span>
+                </label>
+                <input type="text" placeholder="Username" class="input" name="username" autocomplete="username" />
+            </div>
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">Email:</span>
+                </label>
+                <input type="email" placeholder="Email" class="input" name="email" autocomplete="email" />
+            </div>
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">Password:</span>
+                </label>
+                <input type="password" placeholder="Password" class="input" name="password" autocomplete="new-password" />
+            </div>
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">Repeat Password:</span>
+                </label>
+                <input type="password" placeholder="Repeat Password" class="input" name="password2" autocomplete="new-password" />
+            </div>
+            <div class="modal-action">
+                <button type="button" class="btn" onclick="signup_modal.close()">Cancel</button>
+                <button type="submit" class="btn btn-primary btn-sm">Sign Up</button>
+            </div>
+        </form>
+    </div>
+</dialog>

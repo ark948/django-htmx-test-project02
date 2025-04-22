@@ -6,9 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Django Project</title>
     {% tailwind_css %}
+
+
+    <script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
 </head>
 <body>
     <div class="m-12">
+        <div id="user-status">
+            
+        </div>
+    {% include 'accounts/partials/user-info.html' %}
+    {% include 'accounts/partials/signup-modal-form.html' %}
+    {% include 'accounts/partials/login-modal-form.html' %}
+    {% include 'accounts/partials/logout-confirm-modal.html' %}
     {% block content %}
     {% endblock content %}
     </div>

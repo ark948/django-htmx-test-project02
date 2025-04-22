@@ -1,0 +1,15 @@
+<dialog id="logout_modal" class="modal">
+    <div class="modal-box">
+
+        <h3 class="font-bold text-lg mb-4">Are you sure about this?</h3>
+        <form
+            hx-post="{% url 'accounts:logout' %}"
+            class="mb-4">
+            {% csrf_token %}
+            <div class="modal-action">
+                <button type="button" class="btn" onclick="logout_modal.close()">Cancel</button>
+                <button type="submit" class="btn btn-primary btn-sm">Logout?</button>
+            </div>
+        </form>
+    </div>
+</dialog>

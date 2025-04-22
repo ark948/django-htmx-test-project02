@@ -46,3 +46,36 @@ to add daisyUI:
 
 7. moving templates folder to root project folder
 - update TEMPLATES config var in settings.py
+
+
+8. adding modal signup process
+requires tailwindcss, daisyUI, htmx
+and django's builtin authentication forms (user creation form and authentication form)
+- first, let's add HTMX through CDN for now
+- to create a daisyUI dialog component, the content of signup modal form must be moved inside a dialog tag
+- also inside a modal box div component
+so it would be like this:
+    dialog
+        div.modal-box
+            form
+        div.modal-box
+    dialog
+- this partial must be included in base template, so it is available everywhere (don't know if this is going to work)
+- now, we need a button that once clicked, will display the modal, it will be placed right above the include statement
+- successfully showed both the button and the form, but the form is not displaying properly
+- successfully displayed the form, just a matter of working out the appearance
+- alright, appearance is ok, moving on to actual process for now.
+- adding a url to represent the user creation process in accounts app
+- add a view that will handle the process in accounts/views.py
+- add the reqired htmx code to partial tempalte (specifically the form tag)
+few more things need to be added,
+we want the button to be visible only if user is not registered or logged in (this will be done in base template)
+once the user submits the info we could as the user to login
+if the user does login, we want the base to udpate, and display the welcome message instead of the register and login buttons
+for this reason, maybe i should work on the login form first
+(right now, login is only possible with username)
+- another partial is required, one that will show the status and info of the user
+this partial will be returned upon successful htmx request to login
+id was given to the part that will be replaced by response partial
+
+making progresss...
