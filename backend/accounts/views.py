@@ -7,6 +7,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 from django_htmx.http import HttpResponseClientRedirect
+import warnings
 
 from .models import CustomUser
 
@@ -24,8 +25,10 @@ def signup_user(request: HttpRequest):
     pass
 
 
+
 @require_http_methods(['POST'])
-def login_user(request: HttpRequest):
+def login_user_htmx(request: HttpRequest):
+    warnings.warn("Authentication using HTMX is unsafe.")
     username = request.POST['username']
     password = request.POST['password']
     user = authenticate(username=username, password=password)
@@ -40,7 +43,24 @@ def login_user(request: HttpRequest):
 
 
 
+@require_http_methods(['POST'])
+def login_user(request: HttpRequest) -> HttpResponse:
+    username = request.POST['username']
+    password = request.POST['password']
+    user = authenticate(username=username, password=password)
+    if user is not None:
+        login(request, user)
+        return redirect(reverse('home:index'))
+
+
+
 def logout_user(request: HttpRequest) -> None:
-    if request.method == "POST":
+    if request.method == "POST" and request.htmx:
+        print("\n --> Request Reqgular POST + HTMX\n")
         logout(request)
+    elif request.method == "POST":
+        print("\nOnly POST\n")
+        logout(request)
+    else:
+        print("\nError\n")
     return redirect(reverse('home:index'))

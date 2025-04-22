@@ -6,6 +6,7 @@
     <button class="btn btn-primary btn-sm mb-4" onclick="logout_modal.showModal()">
         Logout
     </button>
+    <button class="btn btn-secondary btn-xs" hx-post="{% url 'accounts:logout' %}" type="button">Logout (HTMX)</button>
 {% endif %}
 {% partialdef user-data %}
     {{ user.username }}
@@ -13,4 +14,5 @@
     <button class="btn btn-primary btn-sm mb-4" onclick="logout_modal.showModal()">
         Logout
     </button>
+    <button class="btn btn-secondary btn-xs" hx-post="{% url 'accounts:logout' %}" type="button">Logout (HTMX)</button>
 {% endpartialdef user-data %}
