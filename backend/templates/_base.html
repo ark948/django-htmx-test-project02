@@ -14,6 +14,13 @@
 
 </head>
 <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
     <div class="m-12">
         <div id="user-login-status">
             {% include 'accounts/partials/user-status.html' %}
@@ -21,8 +28,13 @@
     {% include 'accounts/partials/signup-modal-form.html' %}
     {% include 'accounts/partials/login-modal-form.html' %}
     {% include 'accounts/partials/logout-confirm-modal.html' %}
+    <p>
+        <a href="{% url 'contacts:list' %}">-> My Contacts</a>
+    </p>
     {% block content %}
     {% endblock content %}
+    {% block extra_scripts %}
+    {% endblock extra_scripts %}
     </div>
 </body>
 </html>

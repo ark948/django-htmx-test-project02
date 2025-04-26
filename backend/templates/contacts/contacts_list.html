@@ -1,0 +1,14 @@
+{% extends "_base.html" %}
+
+
+
+{% block content %}
+    <h1>User contacts list</h1>
+    <ul>
+    {% for item in contacts %}
+        <li>ITEM: {{ item.first_name }} - {{ item.last_name }} - {{ item.email }}</li>
+    {% empty %}
+        <li>No contacts.</li>
+    {% endfor %}
+    </ul>
+{% endblock content %}

@@ -146,3 +146,6 @@ INTERNAL_IPS = [
 ]
 
 NPM_BIN_PATH = "npm.cmd"
+
+LOGIN_URL = "accounts:login"
+LOGIN_REDIRECT_URL = "home:index" # this will be used if 'next' is not provided

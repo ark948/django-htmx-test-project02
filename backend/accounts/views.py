@@ -1,22 +1,52 @@
 from django.shortcuts import render, redirect
-from django.urls import reverse
+from django.urls import reverse, resolve, Resolver404
 from django.http.response import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.http.request import HttpRequest
 from django.views.decorators.http import require_http_methods, require_GET, require_POST
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 from django_htmx.http import HttpResponseClientRedirect
+from django.contrib import messages
 import warnings
+import logging
+from django.utils.encoding import iri_to_uri
+from django.conf import settings
+from django.utils.http import url_has_allowed_host_and_scheme
+
+
 
 from .models import CustomUser
 
 # Create your views here.
 
+logger = logging.getLogger(__name__)
 
 
 def index(request):
     return HttpResponse('accounts index')
+
+
+
+def safe_redirect(request, next_url, fallback_url = settings.LOGIN_REDIRECT_URL):
+    if next_url:
+        next_url = iri_to_uri(next_url)
+        if url_has_allowed_host_and_scheme(
+            url=next_url, 
+            allowed_hosts={request.get_host()},
+            require_https=request.is_secure()
+        ):
+            try:
+                resolve(next_url)
+                return HttpResponseRedirect(next_url)
+            except Resolver404:
+                logger.exception(f"Failed to resolve the next_url: {next_url}")
+                return HttpResponseRedirect(fallback_url)
+        else:
+            return HttpResponseRedirect(fallback_url)
+    else:
+        return redirect(reverse("home:index"))
 
 
 
@@ -25,7 +55,7 @@ def signup_user(request: HttpRequest):
     pass
 
 
-
+# not used
 @require_http_methods(['POST'])
 def login_user_htmx(request: HttpRequest):
     warnings.warn("Authentication using HTMX is unsafe.")
@@ -37,21 +67,32 @@ def login_user_htmx(request: HttpRequest):
     else:
         print("\n\nWRONG CREDENTIALS\n\n")
     context = { 'user': user }
-    resposne = render(request, 'accounts/partials/user-status-partials/logged-in.html#user-data', context=context)
-    resposne['HX-Trigger'] = 'success'
-    return resposne
+    response = render(request, 'accounts/partials/user-status-partials/logged-in.html#user-data', context=context)
+    response['HX-Trigger'] = 'success'
+    return response
 
 
 
-@require_http_methods(['POST'])
+@require_http_methods(['GET', 'POST'])
 def login_user(request: HttpRequest) -> HttpResponse:
-    username = request.POST['username']
-    password = request.POST['password']
-    user = authenticate(username=username, password=password)
-    if user is not None:
-        login(request, user)
-        return redirect(reverse('home:index'))
-
+    if request.method == "POST":
+        try:
+            username = request.POST["username"] # username = request.POST.get("username", None) provide default
+            password = request.POST["password"]
+        except Exception as error:
+            print("\nUsername or Password was not accessed.\n")
+            messages.warning(request, "Unfortunately, We were unable to process your request, please try again later. (no USERNAME or PASSWORD)")
+            return redirect(reverse("home:index"))
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            nxt = request.GET.get("next", None)
+            login(request, user)
+            # return redirect(reverse('home:index'))
+            return safe_redirect(request, next_url=nxt)
+        else:
+            messages.warning(request, "Unfortunately, We were unable to process your request, please try again later.")
+            return redirect(reverse("home:index"))
+    return render(request, "accounts/login.html")
 
 
 def logout_user(request: HttpRequest) -> None:
