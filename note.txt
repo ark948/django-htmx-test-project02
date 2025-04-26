@@ -92,6 +92,8 @@ this will cause issues if multiple tabs are opened, and user only logs in into o
 for now, i think the appropriate fix is to just inform the user to refresh all opened tabs.
 
 9. adding django-debug-toolbar
+done,
+but must be configured to disable while running tests
 
 apps:
 contacts
