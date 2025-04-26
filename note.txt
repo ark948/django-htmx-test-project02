@@ -110,7 +110,14 @@ run: > pytest
 
 11. adding Neapolitan
 pip install neapolitan
-
+available:
+contacts/ [name='index']
+contacts/ list/ [name='list']
+contacts/ contact/ [name='contact-list']
+contacts/ contact/new/ [name='contact-create']
+contacts/ contact/<int:pk>/ [name='contact-detail']
+contacts/ contact/<int:pk>/edit/ [name='contact-update']
+contacts/ contact/<int:pk>/delete/ [name='contact-delete']
 
 
 

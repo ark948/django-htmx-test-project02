@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import mixins
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import user_passes_test
+from neapolitan.views import CRUDView
 
 
 from .models import Contact
@@ -50,3 +51,8 @@ class ProtectedTestView(mixins.UserPassesTestMixin, generic.TemplateView):
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
+    
+
+class ContactView(CRUDView):
+    model = Contact
+    fields = ["first_name", "last_name", "email", "phone_number", "address", "created_at"]
