@@ -90,3 +90,11 @@ installing django-htmx
 final result: after numerous attempts and research, eventually accepted that CSRF tokens will refresh after successful login.
 this will cause issues if multiple tabs are opened, and user only logs in into one.
 for now, i think the appropriate fix is to just inform the user to refresh all opened tabs.
+
+9. adding django-debug-toolbar
+
+apps:
+contacts
+finances
+tasks
+notes
