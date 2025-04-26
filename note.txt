@@ -95,6 +95,19 @@ for now, i think the appropriate fix is to just inform the user to refresh all o
 done,
 but must be configured to disable while running tests
 
+
+10. adding pytest
+pip install pytest-django
+- create a pytest.ini next to manage.py file
+- add the following to it:
+    [pytest]
+    addopts = '-rP'
+    DJANGO_SETTINGS_MODULE=core.settings
+    python_files = tests.py test_*.py *_tests.py
+- add a simple test one of the apps (for index view for example)
+run: > pytest
+
+
 apps:
 contacts
 finances
