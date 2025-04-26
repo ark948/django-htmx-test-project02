@@ -30,6 +30,7 @@ def index(request):
 
 
 def safe_redirect(request, next_url, fallback_url = settings.LOGIN_REDIRECT_URL):
+    print("\n", next_url, "\n")
     if next_url:
         next_url = iri_to_uri(next_url)
         if url_has_allowed_host_and_scheme(

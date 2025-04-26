@@ -108,6 +108,12 @@ pip install pytest-django
 run: > pytest
 
 
+11. adding Neapolitan
+pip install neapolitan
+
+
+
+
 apps:
 contacts
 finances

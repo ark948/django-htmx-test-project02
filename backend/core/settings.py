@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django_browser_reload',
     "debug_toolbar",
     "template_partials",
+    "neapolitan",
 
     'home',
     'accounts',

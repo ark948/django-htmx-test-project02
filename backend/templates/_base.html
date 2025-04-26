@@ -28,9 +28,6 @@
     {% include 'accounts/partials/signup-modal-form.html' %}
     {% include 'accounts/partials/login-modal-form.html' %}
     {% include 'accounts/partials/logout-confirm-modal.html' %}
-    <p>
-        <a href="{% url 'contacts:list' %}">-> My Contacts</a>
-    </p>
     {% block content %}
     {% endblock content %}
     {% block extra_scripts %}
