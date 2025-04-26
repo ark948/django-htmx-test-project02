@@ -48,6 +48,7 @@ INSTALLED_APPS = [
 
     'home',
     'accounts',
+    'contacts',
 ]
 
 MIDDLEWARE = [
