@@ -118,6 +118,8 @@ contacts/ contact/new/ [name='contact-create']
 contacts/ contact/<int:pk>/ [name='contact-detail']
 contacts/ contact/<int:pk>/edit/ [name='contact-update']
 contacts/ contact/<int:pk>/delete/ [name='contact-delete']
+- templates need to be configured, tailwind also
+- need to rename "-base.html" to "base.html"
 
 
 
