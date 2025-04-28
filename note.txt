@@ -120,6 +120,7 @@ contacts/ contact/<int:pk>/edit/ [name='contact-update']
 contacts/ contact/<int:pk>/delete/ [name='contact-delete']
 - templates need to be configured, tailwind also
 - need to rename "-base.html" to "base.html"
+problem: Package is unable to work with django-tailwind (tailwind needs to be setup in a more standard way using npm)
 
 
 

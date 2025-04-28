@@ -9,6 +9,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 from django_htmx.http import HttpResponseClientRedirect
 from django.contrib import messages
+from django_htmx.http import retarget
 import warnings
 import logging
 from django.utils.encoding import iri_to_uri
@@ -18,6 +19,7 @@ from django.utils.http import url_has_allowed_host_and_scheme
 
 
 from .models import CustomUser
+from .forms import RegistrationForm
 
 # Create your views here.
 
@@ -53,7 +55,25 @@ def safe_redirect(request, next_url, fallback_url = settings.LOGIN_REDIRECT_URL)
 
 @require_http_methods(['POST'])
 def signup_user(request: HttpRequest):
-    pass
+    if request.method == "POST":
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            try:
+                user = form.save()
+                print("\nUser successfully creatd.\n")
+                return redirect(reverse("home:index"))
+            except Exception as error:
+                print("\nERROR:", error, "\n")
+                return redirect(reverse("home:index"))
+        else: # in case of form errors
+            # context = { 'form': form }
+            # response = render(request, "accounts/signup.html", context)
+            # return retarget(response, "")
+            print("\n", form.errors)
+            return redirect(reverse("home:index"))
+    context = { 'form': RegistrationForm() }
+    return render(request, "accounts/signup.html")
+
 
 
 # not used
@@ -71,6 +91,7 @@ def login_user_htmx(request: HttpRequest):
     response = render(request, 'accounts/partials/user-status-partials/logged-in.html#user-data', context=context)
     response['HX-Trigger'] = 'success'
     return response
+
 
 
 
@@ -96,12 +117,13 @@ def login_user(request: HttpRequest) -> HttpResponse:
     return render(request, "accounts/login.html")
 
 
+
 def logout_user(request: HttpRequest) -> None:
     if request.method == "POST" and request.htmx:
-        print("\n --> Request Reqgular POST + HTMX\n")
+        # print("\n --> Request Reqgular POST + HTMX\n")
         logout(request)
     elif request.method == "POST":
-        print("\nOnly POST\n")
+        # print("\nOnly POST\n")
         logout(request)
     else:
         print("\nError\n")
