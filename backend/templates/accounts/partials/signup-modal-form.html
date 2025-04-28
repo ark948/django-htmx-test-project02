@@ -2,8 +2,10 @@
     <div class="modal-box">
 
         <h3 class="font-bold text-lg mb-4">Register now.</h3>
+        <h4 class="font-bold text-lg mb-4 text-red-500">Due to security concerns, page will be refreshed.</h4>
         <form 
-            hx-post="{% url 'accounts:signup' %}"
+            method="post"
+            action="{% url 'accounts:signup' %}"
             class="mb-4">
             {% csrf_token %}
             <div class="form-control">

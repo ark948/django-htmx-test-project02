@@ -32,7 +32,7 @@ def index(request):
 
 
 def safe_redirect(request, next_url, fallback_url = settings.LOGIN_REDIRECT_URL):
-    print("\n", next_url, "\n")
+    # print("\n", next_url, "\n")
     if next_url:
         next_url = iri_to_uri(next_url)
         if url_has_allowed_host_and_scheme(
@@ -61,6 +61,7 @@ def signup_user(request: HttpRequest):
             try:
                 user = form.save()
                 print("\nUser successfully creatd.\n")
+                messages.success(request, "Registration successful. You can now login...")
                 return redirect(reverse("home:index"))
             except Exception as error:
                 print("\nERROR:", error, "\n")
@@ -109,6 +110,7 @@ def login_user(request: HttpRequest) -> HttpResponse:
         if user is not None:
             nxt = request.GET.get("next", None)
             login(request, user)
+            messages.success(request, "Login succesful, Welcome.")
             # return redirect(reverse('home:index'))
             return safe_redirect(request, next_url=nxt)
         else:

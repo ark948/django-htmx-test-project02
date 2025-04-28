@@ -122,6 +122,9 @@ contacts/ contact/<int:pk>/delete/ [name='contact-delete']
 - need to rename "-base.html" to "base.html"
 problem: Package is unable to work with django-tailwind (tailwind needs to be setup in a more standard way using npm)
 
+passwords for the new users:
+test123*AB
+
 
 
 apps:

@@ -2,7 +2,7 @@
     <div class="modal-box">
 
         <h3 class="font-bold text-lg mb-4">Login now</h3>
-        <h3 class="font-bold text-lg mb-4 text-red-500">Page will be refreshed.</h3>
+        <h4 class="font-bold text-lg mb-4 text-red-500">Due to security concerns, page will be refreshed.</h4>
         <form method="post" action="{% url 'accounts:login' %}" class="mb-4">
             {% csrf_token %}
             <div class="form-control">
