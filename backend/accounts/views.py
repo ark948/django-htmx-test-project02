@@ -1,3 +1,6 @@
+import warnings
+import logging
+
 from django.shortcuts import render, redirect
 from django.urls import reverse, resolve, Resolver404
 from django.http.response import HttpResponse, HttpResponseRedirect
@@ -10,12 +13,9 @@ from django.contrib.auth import authenticate, login, logout
 from django_htmx.http import HttpResponseClientRedirect
 from django.contrib import messages
 from django_htmx.http import retarget
-import warnings
-import logging
 from django.utils.encoding import iri_to_uri
 from django.conf import settings
 from django.utils.http import url_has_allowed_host_and_scheme
-
 
 
 from .models import CustomUser
@@ -52,14 +52,13 @@ def safe_redirect(request, next_url, fallback_url = settings.LOGIN_REDIRECT_URL)
         return redirect(reverse("home:index"))
 
 
-
 @require_http_methods(['POST'])
 def signup_user(request: HttpRequest):
     if request.method == "POST":
         form = RegistrationForm(request.POST)
         if form.is_valid():
             try:
-                user = form.save()
+                form.save()
                 print("\nUser successfully creatd.\n")
                 messages.success(request, "Registration successful. You can now login...")
                 return redirect(reverse("home:index"))
@@ -67,13 +66,11 @@ def signup_user(request: HttpRequest):
                 print("\nERROR:", error, "\n")
                 return redirect(reverse("home:index"))
         else: # in case of form errors
-            # context = { 'form': form }
-            # response = render(request, "accounts/signup.html", context)
-            # return retarget(response, "")
-            print("\n", form.errors)
-            return redirect(reverse("home:index"))
+            context = {'form': form} # errors are now attached to form
+            response = render(request, "accounts/signup.html", context)
+            return retarget(response, "#signup_modal")
     context = { 'form': RegistrationForm() }
-    return render(request, "accounts/signup.html")
+    return render(request, "accounts/signup.html", context)
 
 
 
@@ -120,7 +117,11 @@ def login_user(request: HttpRequest) -> HttpResponse:
 
 
 
+@require_http_methods(['POST'])
 def logout_user(request: HttpRequest) -> None:
+    if request.user.is_anonymous:
+        messages.warning(request, "You are not logged in.")
+        return redirect(reverse("home:index"))
     if request.method == "POST" and request.htmx:
         # print("\n --> Request Reqgular POST + HTMX\n")
         logout(request)

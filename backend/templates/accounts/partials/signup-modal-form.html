@@ -13,24 +13,36 @@
                     <span class="label-text">Username:</span>
                 </label>
                 <input type="text" placeholder="Username" class="input" name="username" autocomplete="username" />
+                {% for error in form.username.errors %}
+                    <p class="text-red-400 mt-1"> {{ error }}</p>
+                {% endfor %}
             </div>
             <div class="form-control">
                 <label class="label">
                     <span class="label-text">Email:</span>
                 </label>
                 <input type="email" placeholder="Email" class="input" name="email" autocomplete="email" />
+                {% for error in form.email.errors %}
+                    <p class="text-red-400 mt-1"> {{ error }}</p>
+                {% endfor %}
             </div>
             <div class="form-control">
                 <label class="label">
                     <span class="label-text">Password:</span>
                 </label>
                 <input type="password" placeholder="Password" class="input" name="password1" autocomplete="new-password" />
+                {% for error in form.password1.errors %}
+                    <p class="text-red-400 mt-1"> {{ error }}</p>
+                {% endfor %}
             </div>
             <div class="form-control">
                 <label class="label">
                     <span class="label-text">Repeat Password:</span>
                 </label>
                 <input type="password" placeholder="Repeat Password" class="input" name="password2" autocomplete="new-password" />
+                {% for error in form.password2.errors %}
+                    <p class="text-red-400 mt-1"> {{ error }}</p>
+                {% endfor %}
             </div>
             <div class="modal-action">
                 <button type="button" class="btn" onclick="signup_modal.close()">Cancel</button>

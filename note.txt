@@ -127,6 +127,10 @@ test123*AB
 
 
 
+12. adding signup
++ htmx form validation
+
+
 apps:
 contacts
 finances
