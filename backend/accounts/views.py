@@ -1,5 +1,6 @@
 import warnings
 import logging
+from http import HTTPStatus
 
 from django.shortcuts import render, redirect
 from django.urls import reverse, resolve, Resolver404
@@ -67,7 +68,7 @@ def signup_user(request: HttpRequest):
                 return redirect(reverse("home:index"))
         else: # in case of form errors
             context = {'form': form} # errors are now attached to form
-            response = render(request, "accounts/signup.html", context)
+            response = render(request, "accounts/signup.html", context, status=422)
             return retarget(response, "#signup_modal")
     context = { 'form': RegistrationForm() }
     return render(request, "accounts/signup.html", context)
