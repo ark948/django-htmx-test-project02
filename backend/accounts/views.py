@@ -1,22 +1,19 @@
 import warnings
 import logging
-from http import HTTPStatus
 
 from django.shortcuts import render, redirect
 from django.urls import reverse, resolve, Resolver404
 from django.http.response import HttpResponse, HttpResponseRedirect
 from django.http import HttpResponseRedirect
 from django.http.request import HttpRequest
-from django.views.decorators.http import require_http_methods, require_GET, require_POST
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.forms import AuthenticationForm
+from django.views.decorators.http import require_http_methods
 from django.contrib.auth import authenticate, login, logout
-from django_htmx.http import HttpResponseClientRedirect
 from django.contrib import messages
 from django_htmx.http import retarget
 from django.utils.encoding import iri_to_uri
 from django.conf import settings
 from django.utils.http import url_has_allowed_host_and_scheme
+from django.utils.translation import gettext as _
 
 
 from .models import CustomUser

@@ -130,6 +130,16 @@ test123*AB
 12. adding signup
 + htmx form validation
 
+13. combining django messages framework with daisyUI alerts
+(important)
+css classes must be added to tailwind's config safelist
+because tailwind removes unused css classes
+
+
+
+14. adding internationalization I18n, and localization l10n
+(at least base.html needs to be translated fully)
+
 
 apps:
 contacts
