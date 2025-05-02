@@ -17,7 +17,7 @@ from django.utils.translation import gettext as _
 
 
 from .models import CustomUser
-from .forms import RegistrationForm
+from .forms import RegistrationForm, CustomLoginForm, EmailLoginForm
 
 # Create your views here.
 
@@ -88,6 +88,25 @@ def login_user_htmx(request: HttpRequest):
     response['HX-Trigger'] = 'success'
     return response
 
+
+
+@require_http_methods(['GET', 'POST'])
+def email_login(request: HttpRequest) -> HttpResponse:
+    if request.method == "POST":
+        try:
+            email = request.POST.get('email')
+            password = request.POST.get('password')
+        except Exception as error:
+            print('\nERROR\n')
+        user = authenticate(username=email, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect(reverse("home:index"))
+        else:
+            print("\nINCORRECT\n")
+            return redirect(reverse("home:index"))
+    context = { 'form': EmailLoginForm() }
+    return render(request, "accounts/email-login.html", context)
 
 
 

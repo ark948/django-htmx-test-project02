@@ -141,6 +141,12 @@ because tailwind removes unused css classes
 (at least base.html needs to be translated fully)
 
 
+15. attempting to modify customUser
+for email authentication
+email must be set to unique
+existing database records may cause a problem
+
+
 apps:
 contacts
 finances
