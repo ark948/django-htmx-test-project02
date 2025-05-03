@@ -1,6 +1,7 @@
 from typing import Any
 from django.db.models.query import QuerySet
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.http.request import HttpRequest
 from django.http.response import HttpResponse
 from http import HTTPStatus
@@ -11,9 +12,11 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import user_passes_test
 from neapolitan.views import CRUDView
 from django.core.exceptions import PermissionDenied
+from django.forms.models import model_to_dict
 
 
 from .models import Contact
+from . import forms
 
 # Create your views here.
 
@@ -46,6 +49,32 @@ def contact_item(request: HttpRequest, pk: int) -> HttpResponse:
     response = render(request, "contacts/partials/item-data/item.html", context)
     response["HX-Trigger"] = 'success'
     return response
+
+
+@login_required
+def contact_edit(request: HttpRequest, pk: int) -> HttpResponse:
+    context = {}
+    try:
+        item = Contact.objects.get(pk=pk)
+        if item.user != request.user:
+            raise Contact.DoesNotExist("Such primary key does not exist, or does not belong to you.")
+    except Exception as error:
+        print("\nERROR\n -> ", error)
+        raise Contact.DoesNotExist("Item does not exist.")
+    if request.method == "POST":
+        form = forms.ContactItemEditForm(request.POST, instance=item)
+        if form.is_valid():
+            form.save()
+            context["message"] = "Item edited successfully."
+            response = render(request, "contacts/partials/edit-success.html", context)
+            response["HX-Trigger"] = "done"
+            return response
+    context['form'] = forms.ContactItemEditForm(initial=model_to_dict(item))
+    context['item_id'] = item.pk
+    response = render(request, "contacts/partials/item-data/item-edit.html", context)
+    response["HX-Trigger"] = 'success'
+    return response
+
 
 
 class ContactDetailView(mixins.LoginRequiredMixin, generic.DetailView):

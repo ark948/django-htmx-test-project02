@@ -1,0 +1,10 @@
+<div>
+    {% if message %}
+        {{ message }}
+        <button class="btn btn-primary" onclick="item_edit_modal.close();">
+            Ok
+        </button>
+    {% else %}
+        Empty message.
+    {% endif %}
+</div>

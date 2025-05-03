@@ -4,6 +4,7 @@
 
 {% block content %}
     {% include 'contacts/partials/contact-item-modal.html' %}
+    {% include 'contacts/partials/contact-item-edit-modal.html' %}
     <div class="overflow-x-auto">
         <table class="table table-s">
             <thead>
@@ -36,7 +37,15 @@
                             View
                             </a>
                         </td>
-                        <td><button class="btn btn-soft btn-primary btn-sm">Edit</button></td>
+                        <td><button 
+                                class="btn btn-soft btn-primary btn-sm"
+                                hx-get="{% url 'contacts:item-edit' pk=item.id %}"
+                                hx-trigger="click"
+                                hx-target="#edit_data_to_replace"
+                                hx-on:success="item_edit_modal.showModal();">
+                            Edit
+                            </button>
+                        </td>
                         <td><button class="btn btn-soft btn-error btn-sm">Delete</button></td>
                     </tr>
                 {% endfor %}

@@ -1,0 +1,51 @@
+<div id="item_data">
+    {% if form %}
+        <h3>Edit item</h3>
+        <form class="mb-4" id="edit_form">
+            {% csrf_token %}
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">Primary Key:</span>
+                </label>
+                <input type="number" class="input" name="id" value="{{ item_id }}" disabled="disabled" />
+            </div>
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">First Name:</span>
+                </label>
+                <input type="text" placeholder="first name" class="input" name="first_name" autocomplete="name" value="{{ form.first_name.value }}" />
+            </div>
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">Last Name:</span>
+                </label>
+                <input type="text" placeholder="last name" class="input" name="last_name" autocomplete="family-name" value="{{ form.last_name.value }}" />
+            </div>
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">Email:</span>
+                </label>
+                <input type="email" placeholder="email" class="input" name="email" autocomplete="email" value="{{ form.email.value }}" />
+            </div>
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">Phone Number:</span>
+                </label>
+                <input type="text" placeholder="phone number" class="input" name="phone_number" autocomplete="mobile" value="{{ form.phone_number.value }}" />
+                
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="item_edit_modal.close();">
+                Cancel
+            </button>
+            <button 
+                class="btn btn-primary btn-sm"
+                hx-post="{% url 'contacts:item-edit' pk=item_id %}"
+                hx-target="#item_data"
+                hx-on:done="">
+                Confirm
+            </button>
+        </form>
+    {% else %}
+        Form was not aquired.
+    {% endif %}
+</div>
