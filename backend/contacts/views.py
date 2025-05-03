@@ -33,7 +33,9 @@ def contacts_list(request: HttpRequest) -> HttpResponse:
     context["contacts"] = user_contacts
     if request.htmx:
         print("\n\nHTMX True\n\n")
-        return render(request, "contacts/partials/contacts-list-container.html", context)
+        response = render(request, "contacts/partials/contacts-list-container.html", context)
+        response['HX-Trigger'] = "clean"
+        return response
     else:
         print("\n\nNOT HTMX\n\n")
         return render(request, "contacts/contacts-list.html", context)
@@ -98,16 +100,22 @@ class ContactsListView(mixins.LoginRequiredMixin, generic.ListView):
     model = Contact
     template_name = "contacts/contacts-list.html"
     context_object_name = 'contacts'
-    hx_event = 'clean'
 
-    def get_queryset(self) -> QuerySet[Any]:
+    def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
         if self.request.htmx:
             self.template_name = "contacts/partials/contacts-list-container.html"
+            response = super(ContactsListView, self).dispatch(*args, **kwargs)
+            response['HX-Trigger'] = 'clean'
+            return response
+        else:
+            response = super(ContactsListView, self).dispatch(*args, **kwargs)
+            return response
 
+    def get_queryset(self) -> QuerySet[Any]:
         queryset = super(ContactsListView, self).get_queryset()
         return queryset.filter(user=self.request.user).order_by('-created_at')
     
-
+    
 
 class ProtectedTestView(mixins.UserPassesTestMixin, generic.TemplateView):
     template_name = "secret.html"
