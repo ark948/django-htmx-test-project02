@@ -13,6 +13,7 @@ from django.contrib.auth.decorators import user_passes_test
 from neapolitan.views import CRUDView
 from django.core.exceptions import PermissionDenied
 from django.forms.models import model_to_dict
+from django_htmx.http import trigger_client_event
 
 
 from .models import Contact
@@ -30,7 +31,12 @@ def contacts_list(request: HttpRequest) -> HttpResponse:
     context = {}
     user_contacts = Contact.objects.filter(user=request.user).order_by('-created_at')
     context["contacts"] = user_contacts
-    return render(request, "contacts/contacts_list.html", context)
+    if request.htmx:
+        print("\n\nHTMX True\n\n")
+        return render(request, "contacts/partials/contacts-list-container.html", context)
+    else:
+        print("\n\nNOT HTMX\n\n")
+        return render(request, "contacts/contacts-list.html", context)
 
 
 
@@ -90,10 +96,14 @@ class ContactDetailView(mixins.LoginRequiredMixin, generic.DetailView):
 
 class ContactsListView(mixins.LoginRequiredMixin, generic.ListView):
     model = Contact
-    template_name = "contacts/contacts_list.html"
+    template_name = "contacts/contacts-list.html"
     context_object_name = 'contacts'
+    hx_event = 'clean'
 
     def get_queryset(self) -> QuerySet[Any]:
+        if self.request.htmx:
+            self.template_name = "contacts/partials/contacts-list-container.html"
+
         queryset = super(ContactsListView, self).get_queryset()
         return queryset.filter(user=self.request.user).order_by('-created_at')
     

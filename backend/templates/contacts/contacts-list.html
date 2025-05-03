@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+
+
+{% block content %}
+    {% include 'contacts/partials/contact-item-modal.html' %}
+    {% include 'contacts/partials/contact-item-edit-modal.html' %}
+    <div class="overflow-x-auto" id="contacts_block">
+        <h1>
+            Contacts
+        </h1>
+        <div id="contacts_container">
+            {% include 'contacts/partials/contacts-list-container.html' %}
+        </div>
+    </div>
+{% endblock content %}

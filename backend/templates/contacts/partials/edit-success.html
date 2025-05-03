@@ -1,7 +1,11 @@
 <div>
     {% if message %}
         {{ message }}
-        <button class="btn btn-primary" onclick="item_edit_modal.close();">
+        <button class="btn btn-primary""
+                hx-get="{% url 'contacts:list' %}"
+                hx-target="#contacts_container"
+                hx-on:clean="item_edit_modal.close();"
+                hx-push-url="true">
             Ok
         </button>
     {% else %}
