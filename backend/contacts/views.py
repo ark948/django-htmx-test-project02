@@ -29,6 +29,15 @@ def contacts_list(request: HttpRequest) -> HttpResponse:
     return render(request, "contacts/contacts_list.html", context)
 
 
+class ContactDetailView(mixins.LoginRequiredMixin, generic.DetailView):
+    model = Contact
+    
+    def get_context_data(self, *args, **kwargs: Any) -> dict[str, Any]: # if need to edit fields
+        context = super(ContactDetailView, self).get_context_data(*args, **kwargs)
+        # add extra field 
+        # context["count"] = "MISC"
+        return context
+
 
 
 class ContactsListView(mixins.LoginRequiredMixin, generic.ListView):
