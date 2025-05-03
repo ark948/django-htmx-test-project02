@@ -10,6 +10,7 @@ from django.contrib.auth import mixins
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import user_passes_test
 from neapolitan.views import CRUDView
+from django.core.exceptions import PermissionDenied
 
 
 from .models import Contact
@@ -27,6 +28,24 @@ def contacts_list(request: HttpRequest) -> HttpResponse:
     user_contacts = Contact.objects.filter(user=request.user).order_by('-created_at')
     context["contacts"] = user_contacts
     return render(request, "contacts/contacts_list.html", context)
+
+
+
+@login_required
+def contact_item(request: HttpRequest, pk: int) -> HttpResponse:
+    context = {}
+    try:
+        contact_item = Contact.objects.filter(id=pk).first()
+        if contact_item.user == request.user:
+            context['item'] = contact_item
+        else:
+            return None
+    except Exception as error:
+        print("\nERROR contact-item --> \n" ,error)
+        return None
+    response = render(request, "contacts/partials/item-data/item.html", context)
+    response["HX-Trigger"] = 'success'
+    return response
 
 
 class ContactDetailView(mixins.LoginRequiredMixin, generic.DetailView):
@@ -62,6 +81,7 @@ class ProtectedTestView(mixins.UserPassesTestMixin, generic.TemplateView):
         return super().dispatch(*args, **kwargs)
     
 
-class ContactView(CRUDView):
+# Django Neapolitan
+class ContactView(mixins.LoginRequiredMixin, CRUDView):
     model = Contact
     fields = ["first_name", "last_name", "email", "phone_number", "address", "created_at"]

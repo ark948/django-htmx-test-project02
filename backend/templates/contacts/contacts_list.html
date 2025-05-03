@@ -3,6 +3,7 @@
 
 
 {% block content %}
+    {% include 'contacts/partials/contact-item-modal.html' %}
     <div class="overflow-x-auto">
         <table class="table table-s">
             <thead>
@@ -27,22 +28,20 @@
                         <td>{{ item.phone_number }}</td>
                         <td>{{ item.address }}</td>
                         <td>{{ item.created_at }}</td>
-                        <td><a class="link link-hover">View</a></td>
-                        <td><button class="btn btn-soft btn-primary btn-sm">Primary</button></td>
-                        <td><button class="btn btn-soft btn-error btn-sm">Error</button></td>
+                        <td><a class="link link-hover" 
+                                hx-get="{% url 'contacts:item-detail' pk=item.id %}"
+                                hx-trigger="click"
+                                hx-target="#data_to_replace"
+                                hx-on:success="item_modal.showModal();">
+                            View
+                            </a>
+                        </td>
+                        <td><button class="btn btn-soft btn-primary btn-sm">Edit</button></td>
+                        <td><button class="btn btn-soft btn-error btn-sm">Delete</button></td>
                     </tr>
                 {% endfor %}
             </tbody>
             <tfoot>
-                <tr>
-                    <th></th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Email</th>
-                    <th>Phone Number</th>
-                    <th>Address</th>
-                    <th>Created at:</th>
-                </tr>
             </tfoot>
         </table>
     </div>
