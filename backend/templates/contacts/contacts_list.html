@@ -14,6 +14,7 @@
                     <th>Phone Number</th>
                     <th>Address</th>
                     <th>Created at:</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -26,6 +27,9 @@
                         <td>{{ item.phone_number }}</td>
                         <td>{{ item.address }}</td>
                         <td>{{ item.created_at }}</td>
+                        <td><a class="link link-hover">View</a></td>
+                        <td><button class="btn btn-soft btn-primary btn-sm">Primary</button></td>
+                        <td><button class="btn btn-soft btn-error btn-sm">Error</button></td>
                     </tr>
                 {% endfor %}
             </tbody>
