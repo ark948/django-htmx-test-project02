@@ -15,7 +15,7 @@ class Contact(models.Model):
 
     class Meta:
         unique_together = ('user', 'email')
-        ordering = ['-created_at']
+        ordering = ['created_at']
         verbose_name_plural = "Contacts"
 
     @property

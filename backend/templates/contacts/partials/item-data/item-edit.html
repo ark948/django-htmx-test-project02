@@ -32,16 +32,15 @@
                     <span class="label-text">Phone Number:</span>
                 </label>
                 <input type="text" placeholder="phone number" class="input" name="phone_number" autocomplete="mobile" value="{{ form.phone_number.value }}" />
-                
             </div>
             <button class="btn btn-primary btn-sm" onclick="item_edit_modal.close();">
                 Cancel
             </button>
             <button 
-                class="btn btn-primary btn-sm"
-                hx-post="{% url 'contacts:item-edit' pk=item_id %}"
-                hx-target="#item_data"
-                hx-on:done="">
+                    class="btn btn-primary btn-sm"
+                    hx-post="{% url 'contacts:item-edit' pk=item_id %}"
+                    hx-target="#item_data"
+                    hx-on:done="">
                 Confirm
             </button>
         </form>

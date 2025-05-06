@@ -1,0 +1,19 @@
+<div>
+    {% if message %}
+        {{ message }}
+        <button class="btn btn-primary btn-xs"
+                hx-get="{% url 'contacts:list' %}"
+                hx-target="#contacts_container"
+                hx-on:clean="new_item_modal.close();"
+                hx-push-url="true">
+            View/Refresh list
+        </button>
+        <button class="btn btn-info btn-xs"
+                hx-get="{% url 'contacts:new-item' %}"
+                hx-target="#new_item_form_to_replace">
+            Add another
+        </button>
+    {% else %}
+        Empty message.
+    {% endif %}
+</div>

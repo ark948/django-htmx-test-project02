@@ -3,7 +3,7 @@
 {% if user.username and user.email %}
     {{ user.username }}
     {{ user.email }}
-    <button class="btn btn-primary btn-sm mb-4" onclick="logout_modal.showModal()">
+    <button class="btn btn-primary btn-xs mb-4" onclick="logout_modal.showModal()">
         Logout
     </button>
     <button class="btn btn-secondary btn-xs" hx-post="{% url 'accounts:logout' %}" type="button" disabled="disabled">Logout (HTMX)</button>

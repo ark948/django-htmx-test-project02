@@ -14,6 +14,7 @@ from neapolitan.views import CRUDView
 from django.core.exceptions import PermissionDenied
 from django.forms.models import model_to_dict
 from django_htmx.http import trigger_client_event
+from django.views.decorators.http import require_http_methods
 
 
 from .models import Contact
@@ -29,15 +30,16 @@ def index(request: HttpRequest) -> HttpResponse:
 @login_required
 def contacts_list(request: HttpRequest) -> HttpResponse:
     context = {}
-    user_contacts = Contact.objects.filter(user=request.user).order_by('-created_at')
+    user_contacts = Contact.objects.filter(user=request.user)
     context["contacts"] = user_contacts
+    context["new_contact_form"] = forms.NewConctactForm()
     if request.htmx:
-        print("\n\nHTMX True\n\n")
+        print("HTMX True")
         response = render(request, "contacts/partials/contacts-list-container.html", context)
         response['HX-Trigger'] = "clean"
         return response
     else:
-        print("\n\nNOT HTMX\n\n")
+        print("NOT HTMX")
         return render(request, "contacts/contacts-list.html", context)
 
 
@@ -82,6 +84,25 @@ def contact_edit(request: HttpRequest, pk: int) -> HttpResponse:
     response = render(request, "contacts/partials/item-data/item-edit.html", context)
     response["HX-Trigger"] = 'success'
     return response
+
+
+
+@login_required
+def new_contact(request: HttpRequest) -> HttpResponse:
+    if request.method == "POST":
+        form = forms.NewConctactForm(request.POST)
+        if form.is_valid():
+            new_contact_item = form.save(commit=False)
+            new_contact_item.user = request.user
+            new_contact_item.save()
+            response = render(request, "contacts/partials/new-item-success.html", { 'message': "Item successfully added." })
+            response['HX-Trigger'] = "done"
+            return response
+    else:
+        form = forms.NewConctactForm()
+        context = { 'form': form }
+        response = render(request, "contacts/partials/item-data/new-item.html", context)
+        return response
 
 
 
