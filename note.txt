@@ -147,6 +147,10 @@ email must be set to unique
 existing database records may cause a problem
 
 
+16. adding factory-boy
+$ pip install factory_boy
+
+
 apps:
 contacts
 finances

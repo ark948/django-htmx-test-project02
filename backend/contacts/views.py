@@ -35,12 +35,10 @@ def contacts_list(request: HttpRequest) -> HttpResponse:
     context["contacts"] = user_contacts
     context["new_contact_form"] = forms.NewConctactForm()
     if request.htmx:
-        print("HTMX True")
         response = render(request, "contacts/partials/contacts-list-container.html", context)
         response['HX-Trigger'] = "clean"
         return response
     else:
-        print("NOT HTMX")
         return render(request, "contacts/contacts-list.html", context)
 
 

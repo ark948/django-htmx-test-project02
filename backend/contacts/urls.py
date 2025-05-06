@@ -11,7 +11,8 @@ urlpatterns = [
     path('item-detail/<int:pk>/', views.contact_item, name='item-detail'),
     path('list/', views.contacts_list, name='list'),
     path('', views.index, name='index'),
-] + views.ContactView.get_urls()
+]
 
 
-# path("list/", views.ContactsListView.as_view(), name="list"),
+# Django Neapolitan, could act as a backup, maybe
+urlpatterns += views.ContactView.get_urls()
