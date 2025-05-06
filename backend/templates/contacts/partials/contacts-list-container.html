@@ -30,7 +30,8 @@
                         View
                         </a>
                     </td>
-                    <td><button 
+                    <td>
+                        <button 
                             class="btn btn-soft btn-primary btn-sm"
                             hx-get="{% url 'contacts:item-edit' pk=item.id %}"
                             hx-trigger="click"
@@ -39,7 +40,15 @@
                         Edit
                         </button>
                     </td>
-                    <td><button class="btn btn-soft btn-error btn-sm">Delete</button></td>
+                    <td>
+                        <button 
+                            class="btn btn-soft btn-error btn-sm"
+                            hx-delete="{% url 'contacts:delete' pk=item.id %}"
+                            hx-trigger="click"
+                            hx-target="#contacts_container">
+                            Delete
+                        </button>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>

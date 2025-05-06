@@ -15,6 +15,7 @@ from django.core.exceptions import PermissionDenied
 from django.forms.models import model_to_dict
 from django_htmx.http import trigger_client_event
 from django.views.decorators.http import require_http_methods
+from django.contrib import messages
 
 
 from .models import Contact
@@ -61,6 +62,7 @@ def contact_item(request: HttpRequest, pk: int) -> HttpResponse:
     return response
 
 
+
 @login_required
 def contact_edit(request: HttpRequest, pk: int) -> HttpResponse:
     context = {}
@@ -70,7 +72,7 @@ def contact_edit(request: HttpRequest, pk: int) -> HttpResponse:
             raise Contact.DoesNotExist("Such primary key does not exist, or does not belong to you.")
     except Exception as error:
         print("\nERROR\n -> ", error)
-        raise Contact.DoesNotExist("Item does not exist.")
+        return redirect(reverse("contacts:list"))
     if request.method == "POST":
         form = forms.ContactItemEditForm(request.POST, instance=item)
         if form.is_valid():
@@ -84,6 +86,25 @@ def contact_edit(request: HttpRequest, pk: int) -> HttpResponse:
     response = render(request, "contacts/partials/item-data/item-edit.html", context)
     response["HX-Trigger"] = 'success'
     return response
+
+
+
+@login_required
+@require_http_methods(["DELETE"])
+def delete_contact(request: HttpRequest, pk: int) -> HttpResponse:
+    context = {}
+    try:
+        item_to_delete = Contact.objects.get(pk=pk)
+        if item_to_delete.user != request.user:
+            raise Contact.DoesNotExist("Such contact does not exist, or does not belong to you.")
+    except Exception as error:
+        return redirect(reverse("contacts:list"))
+    if request.method == "DELETE":
+        item_to_delete.delete()
+        user_contacts = Contact.objects.filter(user=request.user)
+        context["contacts"] = user_contacts
+        response = render(request, "contacts/partials/contacts-list-container.html", context)
+        return response
 
 
 
