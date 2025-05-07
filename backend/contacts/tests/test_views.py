@@ -55,3 +55,18 @@ def test_contacts_list_page_context_is_appropriate(user, user_contacts, client: 
     assert type(response.context['contacts'][0]) == type(user_contacts[0])
     assert response.context['contacts'][0] == user_contacts[0]
     assert type(response.context['contacts'][0]) == Contact
+
+
+
+@pytest.mark.django_db
+def test_contacts_list_from_neapolitan_is_protected(user, user_contacts, client: Client):
+    response = client.get('/contacts/contact/', follow=True)
+    assertRedirects(response, '/accounts/login/?next=%2Fcontacts%2Fcontact%2F')
+
+
+@pytest.mark.django_db
+def test_contacts_list_from_neapolitan_is_accessible_through_login(user, user_contacts, client: Client):
+    client.force_login(user)
+    response = client.get('/contacts/contact/')
+    
+    assert response.status_code == 200

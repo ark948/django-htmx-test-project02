@@ -40,7 +40,7 @@
                     class="btn btn-primary btn-sm"
                     hx-post="{% url 'contacts:item-edit' pk=item_id %}"
                     hx-target="#item_data"
-                    hx-on:done="">
+                    hx-on:done="console.log('Edit ok');">
                 Confirm
             </button>
         </form>

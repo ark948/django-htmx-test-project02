@@ -6,10 +6,9 @@ from django.urls import reverse
 from django.http.request import HttpRequest
 from django.http.response import HttpResponse
 from django.views import generic
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import mixins
 from django.utils.decorators import method_decorator
-from django.core.exceptions import PermissionDenied
 from django.forms.models import model_to_dict
 from django.views.decorators.http import require_http_methods
 from django.contrib import messages
@@ -29,7 +28,7 @@ def index(request: HttpRequest) -> HttpResponse:
 @login_required
 def contacts_list(request: HttpRequest) -> HttpResponse:
     context = {}
-    user_contacts = Contact.objects.filter(user=request.user)
+    user_contacts = request.user.contacts.all()
     context["contacts"] = user_contacts
     context["new_contact_form"] = forms.NewConctactForm()
     if request.htmx:
@@ -40,19 +39,20 @@ def contacts_list(request: HttpRequest) -> HttpResponse:
         return render(request, "contacts/contacts-list.html", context)
 
 
-# replace filter with get
+
 @login_required
 def contact_item(request: HttpRequest, pk: int) -> HttpResponse:
     context = {}
     try:
-        contact_item = Contact.objects.filter(id=pk).first()
+        contact_item = Contact.objects.get(pk=pk)
         if contact_item.user == request.user:
             context['item'] = contact_item
         else:
-            return None
+            raise Contact.DoesNotExist
     except Exception as error:
         print("ERROR -> ", error)
-        return None
+        messages.error("Such contact does not exist, or does not belong to you.")
+        return redirect(reverse("contacts:list"))
     response = render(request, "contacts/partials/item-data/item.html", context)
     response["HX-Trigger"] = 'success'
     return response
