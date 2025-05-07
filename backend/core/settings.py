@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     "debug_toolbar",
     "template_partials",
     "neapolitan",
+    'import_export',
+    'widget_tweaks',
 
     'home',
     'accounts',

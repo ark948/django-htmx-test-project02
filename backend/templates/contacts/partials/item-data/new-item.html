@@ -1,36 +1,33 @@
+{% load widget_tweaks %}
+
 <h3 class="font-bold text-lg mb-4 text-green-600">New Contact Item</h3>
         <form id="new_item_form">
             {% csrf_token %}
             <div class="form-control">
-                <label class="label">
-                    <span class="label-text">First Name:</span>
-                </label>
-                <input type="text" placeholder="first name" class="input" name="first_name" autocomplete="name" />
+                {{ form.first_name|add_label_class:"label text-black" }}
+                {% render_field form.first_name class="input" placeholder="First Name" %}
             </div>
+            
             <div class="form-control">
-                <label class="label">
-                    <span class="label-text">Last Name:</span>
-                </label>
-                <input type="text" placeholder="last name" class="input" name="last_name" autocomplete="family-name" />
+                {{ form.last_name|add_label_class:"label text-black" }}
+                {% render_field form.last_name class="input" placeholder="Last Name" %}
             </div>
+            
             <div class="form-control">
-                <label class="label">
-                    <span class="label-text">Email:</span>
-                </label>
-                <input type="email" placeholder="email" class="input" name="email" autocomplete="email" />
+                {{ form.email|add_label_class:"label text-black" }}
+                {% render_field form.email class="input" type="email" placeholder="Email" %}
             </div>
+            
             <div class="form-control">
-                <label class="label">
-                    <span class="label-text">Phone Number:</span>
-                </label>
-                <input type="text" placeholder="phone number" class="input" name="phone_number" autocomplete="mobile" />
+                {{ form.phone_number|add_label_class:"label text-black" }}
+                {% render_field form.phone_number class="input" type="text" placeholder="mobile" %}
             </div>
+        
             <div class="form-control">
-                <label class="label">
-                    <span class="label-text">Address</span>
-                </label>
-                <textarea class="textarea" name="address" placeholder="address"></textarea>
+                {{ form.address|add_label_class:"label text-black" }}
+                {% render_field form.address class="textarea" placeholder="address" %}
             </div>
+
             <button class="btn btn-xs btn-success"
                     hx-post="{% url 'contacts:new-item' %}"
                     hx-target="#new_item_form_to_replace"

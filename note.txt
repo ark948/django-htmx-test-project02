@@ -159,6 +159,16 @@ email, phone_number and address must be encrypted
 i assume first_name and last_name are not that important
 
 
+18. adding import and export
+pip install django-import-export
+(skipped for now)
+
+
+19. updating forms
+(should not be raw html code)
+pip install django-widget-tweaks
+
+
 apps:
 contacts
 finances
