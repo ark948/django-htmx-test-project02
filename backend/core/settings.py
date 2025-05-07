@@ -157,3 +157,6 @@ AUTHENTICATION_BACKENDS = [
     'accounts.backends.EmailBackend',
     "django.contrib.auth.backends.ModelBackend" # default
 ]
+
+
+SALT_KEY = '012lkj35j4ljflJLKFJDLSJF234ljrFDSfsdfsdfs-frlewjrweljz'

@@ -1,5 +1,7 @@
 from django.db import models
 
+from encrypted_fields.fields import EncryptedEmailField, EncryptedCharField, EncryptedTextField
+
 from accounts.models import CustomUser
 
 # Create your models here.
@@ -7,9 +9,9 @@ from accounts.models import CustomUser
 class Contact(models.Model):
     first_name = models.CharField(max_length=80, null=True, blank=True)
     last_name = models.CharField(max_length=100, null=True, blank=True)
-    email = models.EmailField(max_length=150, null=True, blank=True)
-    phone_number = models.CharField(max_length=30)
-    address = models.TextField(verbose_name="Address", max_length=150, null=True, blank=True)
+    email = EncryptedEmailField(max_length=150, null=True, blank=True)
+    phone_number = EncryptedCharField(max_length=30)
+    address = EncryptedTextField(verbose_name="Address", max_length=150, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey( CustomUser, on_delete=models.CASCADE, related_name='contacts' ) # user.contacts.all() 
 
@@ -24,3 +26,10 @@ class Contact(models.Model):
 
     def __str__(self) -> str:
         return f"[{self.full_name} <{self.email}>]"
+    
+
+
+# old fields before encryption
+    # email = models.EmailField(max_length=150, null=True, blank=True)
+    # phone_number = models.CharField(max_length=30)
+    # address = models.TextField(verbose_name="Address", max_length=150, null=True, blank=True)

@@ -151,8 +151,21 @@ existing database records may cause a problem
 $ pip install factory_boy
 
 
+17. adding encrypted fields
+(database information must be encrypted)
+pip install django-fernet-encrypted-fields
+IMPORTANT: SALT_KEY must be added to env
+email, phone_number and address must be encrypted
+i assume first_name and last_name are not that important
+
+
 apps:
 contacts
 finances
 tasks
 notes
+
+
+user434
+user434@gmail.com
+test123*ABC
