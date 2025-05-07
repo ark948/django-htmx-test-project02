@@ -25,6 +25,12 @@
                 </label>
                 <input type="text" placeholder="phone number" class="input" name="phone_number" autocomplete="mobile" />
             </div>
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">Address</span>
+                </label>
+                <textarea class="textarea" name="address" placeholder="address"></textarea>
+            </div>
             <button class="btn btn-xs btn-success"
                     hx-post="{% url 'contacts:new-item' %}"
                     hx-target="#new_item_form_to_replace"
