@@ -6,9 +6,26 @@
     {% include 'contacts/partials/contact-item-modal.html' %}
     {% include 'contacts/partials/contact-item-edit-modal.html' %}
     <div class="overflow-x-auto" id="contacts_block">
-        <h1 class="font-bold text-xl text-black-500">
+        <h1 class="font-bold text-xl text-black-500 mb-4 mt-4 inline-block">
             Contacts
         </h1>
+        <div>
+            <button 
+                    class="btn btn-accent btn-sm" 
+                    onclick="new_item_modal.showModal();" 
+                    hx-get="{% url 'contacts:new-item' %}"
+                    hx-target="#new_item_form_to_replace">
+                New
+            </button>
+            <button
+                    class="btn btn-outline btn-secondary btn-sm">
+                Export CSV
+            </button>
+            <button
+                    class="btn btn-outline btn-secondary btn-sm">
+                Import CSV
+            </button>
+        </div>
         <div id="contacts_container">
             {% include 'contacts/partials/contacts-list-container.html' %}
         </div>

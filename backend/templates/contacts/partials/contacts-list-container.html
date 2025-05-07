@@ -1,5 +1,5 @@
 <div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-200">
-    <table class="table table-md">
+    <table class="table table-sm">
         <thead>
             <tr>
                 <th></th>
@@ -56,11 +56,4 @@
         </tfoot>
     </table>
     {% include 'contacts/partials/contact-new-item-modal.html' %}
-    <button 
-            class="btn btn-accent btn-sm" 
-            onclick="new_item_modal.showModal();" 
-            hx-get="{% url 'contacts:new-item' %}"
-            hx-target="#new_item_form_to_replace">
-        New
-    </button>
 </div>
