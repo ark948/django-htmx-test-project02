@@ -21,5 +21,10 @@ def contact_dict_params(user):
     contact = ContactFactory.create(user=user)
     return {
         'first_name': contact.first_name,
-        'last_name': contact.last_name
+        'last_name': contact.last_name,
+        'email': contact.email,
+        'phone_number': contact.phone_number,
+        'address': contact.address,
+        'created_at': contact.created_at,
+        'user': contact.user
     }

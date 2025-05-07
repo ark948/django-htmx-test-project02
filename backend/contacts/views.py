@@ -1,21 +1,19 @@
 from typing import Any
+from http import HTTPStatus
 from django.db.models.query import QuerySet
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.http.request import HttpRequest
 from django.http.response import HttpResponse
-from http import HTTPStatus
 from django.views import generic
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import mixins
 from django.utils.decorators import method_decorator
-from django.contrib.auth.decorators import user_passes_test
-from neapolitan.views import CRUDView
 from django.core.exceptions import PermissionDenied
 from django.forms.models import model_to_dict
-from django_htmx.http import trigger_client_event
 from django.views.decorators.http import require_http_methods
 from django.contrib import messages
+from neapolitan.views import CRUDView
 
 
 from .models import Contact
@@ -24,7 +22,7 @@ from . import forms
 # Create your views here.
 
 def index(request: HttpRequest) -> HttpResponse:
-    return render(request, "contacts/index.html", status=HTTPStatus.OK) # 200
+    return render(request, "contacts/index.html", status=HTTPStatus.OK)
 
 
 
@@ -42,7 +40,7 @@ def contacts_list(request: HttpRequest) -> HttpResponse:
         return render(request, "contacts/contacts-list.html", context)
 
 
-
+# replace filter with get
 @login_required
 def contact_item(request: HttpRequest, pk: int) -> HttpResponse:
     context = {}
@@ -53,14 +51,14 @@ def contact_item(request: HttpRequest, pk: int) -> HttpResponse:
         else:
             return None
     except Exception as error:
-        print("\nERROR contact-item --> \n" ,error)
+        print("ERROR -> ", error)
         return None
     response = render(request, "contacts/partials/item-data/item.html", context)
     response["HX-Trigger"] = 'success'
     return response
 
 
-
+# REWRITE with PUT or Patch
 @login_required
 def contact_edit(request: HttpRequest, pk: int) -> HttpResponse:
     context = {}
@@ -69,7 +67,8 @@ def contact_edit(request: HttpRequest, pk: int) -> HttpResponse:
         if item.user != request.user:
             raise Contact.DoesNotExist("Such primary key does not exist, or does not belong to you.")
     except Exception as error:
-        print("\nERROR\n -> ", error)
+        print("ERROR -> ", error)
+        messages.error(request, "Sorry, such contact does not exist, or does not belong to you.")
         return redirect(reverse("contacts:list"))
     if request.method == "POST":
         form = forms.ContactItemEditForm(request.POST, instance=item)
@@ -96,13 +95,14 @@ def delete_contact(request: HttpRequest, pk: int) -> HttpResponse:
         if item_to_delete.user != request.user:
             raise Contact.DoesNotExist("Such contact does not exist, or does not belong to you.")
     except Exception as error:
+        print("ERROR -> ", error)
+        messages.error(request, "Sorry, such contact does not exist, or does not belong to you.")
         return redirect(reverse("contacts:list"))
-    if request.method == "DELETE":
-        item_to_delete.delete()
-        user_contacts = Contact.objects.filter(user=request.user)
-        context["contacts"] = user_contacts
-        response = render(request, "contacts/partials/contacts-list-container.html", context)
-        return response
+    item_to_delete.delete()
+    user_contacts = Contact.objects.filter(user=request.user)
+    context["contacts"] = user_contacts
+    response = render(request, "contacts/partials/contacts-list-container.html", context)
+    return response
 
 
 
@@ -118,8 +118,7 @@ def new_contact(request: HttpRequest) -> HttpResponse:
             response['HX-Trigger'] = "done"
             return response
     else:
-        form = forms.NewConctactForm()
-        context = { 'form': form }
+        context = { 'form': forms.NewConctactForm() }
         response = render(request, "contacts/partials/item-data/new-item.html", context)
         return response
 
