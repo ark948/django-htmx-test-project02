@@ -18,4 +18,4 @@ class ContactFactory(factory.django.DjangoModelFactory):
     first_name = 'hello'
     last_name = 'world'
     email = factory.Sequence(lambda n: 'user%d@gmail.com' % n)
-    phone_number = factory.Sequence(lambda n: n)
+    phone_number = str(factory.Sequence(lambda n: n))
