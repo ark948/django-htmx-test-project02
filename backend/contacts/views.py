@@ -58,6 +58,7 @@ def contact_item(request: HttpRequest, pk: int) -> HttpResponse:
     return response
 
 
+
 # REWRITE with PUT or Patch
 @login_required
 def contact_edit(request: HttpRequest, pk: int) -> HttpResponse:

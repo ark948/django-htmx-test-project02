@@ -1,4 +1,4 @@
-<div class="overflow-x-auto">
+<div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-200">
     <table class="table table-md">
         <thead>
             <tr>
@@ -14,7 +14,7 @@
         </thead>
         <tbody>
             {% for item in contacts %}
-                <tr>
+                <tr class="hover:bg-base-300">
                     <th>{{ forloop.counter }}</th>
                     <td>{{ item.first_name }}</td>
                     <td>{{ item.last_name }}</td>
