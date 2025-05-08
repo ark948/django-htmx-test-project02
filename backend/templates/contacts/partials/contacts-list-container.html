@@ -73,7 +73,10 @@
             <h4 class="font-bold text-md text-black-400">
                 Filters
             </h4>
-            <form method="GET" class="m-4">
+            <form 
+                method="GET"
+                action="{% url 'contacts:list' %}"
+                class="m-4">
                 <div class="form-control">
                     {{ filter.form.first_name|add_label_class:"label text-black" }}
                     {% render_field filter.form.first_name class="input" %}
@@ -84,7 +87,7 @@
                 </div>
                 <div class="form-control">
                     {{ filter.form.email|add_label_class:"label text-black" }}
-                    {% render_field filter.form.email class="input" type="email" %}
+                    {% render_field filter.form.email class="input" %}
                 </div>
                 <div class="form-control">
                     {{ filter.form.phone_number|add_label_class:"label text-black" }}
@@ -93,6 +96,16 @@
                 <button class="btn btn-md btn-dash mt-1">
                     Apply
                 </button>
+                <button class="btn btn-primary btn-outline btn-sm"
+                    hx-get="{% url 'contacts:list' %}"
+                    hx-target="#contacts_container"
+                    hx-push-url="true"
+                    hx-on:clean="console.log('Refreshing list...')">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>                                         
+                Clear
+            </button>
             </form>
         </div>
     </div>
