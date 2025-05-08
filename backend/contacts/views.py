@@ -4,7 +4,7 @@ from django.db.models.query import QuerySet
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.http.request import HttpRequest
-from django.http.response import HttpResponse
+from django.http.response import HttpResponse, FileResponse
 from django.views import generic
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import mixins
@@ -13,6 +13,7 @@ from django.forms.models import model_to_dict
 from django.views.decorators.http import require_http_methods
 from django.contrib import messages
 from neapolitan.views import CRUDView
+from tablib import Dataset
 
 
 from .models import Contact
@@ -127,20 +128,44 @@ def new_contact(request: HttpRequest) -> HttpResponse:
 
 
 @login_required
-def export_csv(request: HttpRequest):
+def export_csv(request: HttpRequest) -> FileResponse:
     if request.htmx:
+        # if request is done by htmx:
+        # this will perform a client side redirect, to this very same url
+        # but this time, it won't be htmx request, it will be a regular request
         return HttpResponse( headers={'HX-Redirect': request.get_full_path()} )
     queryset = request.user.contacts.all()
     data = ContactModelResource().export(queryset)
-    response = HttpResponse(data.csv)
+    response = HttpResponse(data.csv) # other available formats: json, yaml (requires tablib[yaml])
     response['Content-Disposition'] = 'attachment; filename="contacts.csv"'
     return response
 
 
 
 @login_required
-def import_csv(request: HttpRequest):
-    pass
+def import_csv(request: HttpRequest) -> HttpResponse:
+    context = {}
+    if request.method == "POST":
+        file = request.FILES.get('file')
+        resource = ContactModelResource()
+        dataset = Dataset()
+        dataset.load(file.read().decode(), format='csv')
+        result = resource.import_data(dataset=dataset, user=request.user, dry_run=True)
+
+        for row in result:
+            for error in row.errors:
+                print("ROW error ->", error)
+
+        if not result.has_errors():
+            resource.import_data(dataset=dataset, user=request.user, dry_run=False)
+            context['message'] = f"{len(dataset)} contacts were added successfully."
+            return render(request, "contacts/partials/import-message.html", context=context)
+        else:
+            context['message'] = "Sorry, we were unable to process the file, Please check it and try again."
+            return render(request, "contacts/partials/import-message.html", context=context)
+    else:
+        context['form'] = forms.CsvFileImportForm()
+        return render(request, "contacts/partials/item-data/import-file.html", context=context)
 
 
 

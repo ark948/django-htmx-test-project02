@@ -1,0 +1,24 @@
+{% load widget_tweaks %}
+<div>
+    {% if form %}
+        <h3>Import from CSV file</h3>
+        <form class="mb-4 form" hx-encoding="multipart/form-data" hx-post="{% url 'contacts:import' %}">
+            {% csrf_token %}
+            <div class="form-control">
+                {{ form.file|add_label_class:"label text-black" }}
+                {% render_field form.file class="file-input text-black" type="file" placeholder="file" accept=".csv" %}
+            </div>
+
+            <button class="btn btn-primary btn-sm">
+                Confirm
+            </button>
+            <button class="btn btn-error btn-sm"
+                    hx-get="{% url 'contacts:list' %}"
+                    hx-target="#contacts_container"
+                    hx-on:clean="upload_modal.close();console.log('Close.')"
+                    hx-push-url="true">
+                Cancel
+            </button>
+        </form>
+    {% endif %}
+</div>

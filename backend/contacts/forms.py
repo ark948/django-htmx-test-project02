@@ -14,3 +14,8 @@ class ContactItemEditForm(forms.ModelForm):
     class Meta:
         model = Contact
         fields = ('first_name', 'last_name', 'email', 'phone_number', 'address')
+
+
+
+class CsvFileImportForm(forms.Form):
+    file = forms.FileField(label="CSV file:")
