@@ -11,20 +11,28 @@
         </h1>
         <div>
             <button 
-                    class="btn btn-accent btn-sm" 
-                    onclick="new_item_modal.showModal();" 
-                    hx-get="{% url 'contacts:new-item' %}"
-                    hx-target="#new_item_form_to_replace">
+                class="btn btn-accent btn-sm" 
+                onclick="new_item_modal.showModal();" 
+                hx-get="{% url 'contacts:new-item' %}"
+                hx-target="#new_item_form_to_replace">
                 New
             </button>
             <button
-                    class="btn btn-outline btn-secondary btn-sm">
+                class="btn btn-outline btn-secondary btn-sm">
                 Export CSV
             </button>
             <button
-                    class="btn btn-outline btn-secondary btn-sm">
+                class="btn btn-outline btn-secondary btn-sm">
                 Import CSV
             </button>
+            <button class="btn btn-primary btn-outline btn-sm"
+                    hx-get="{% url 'contacts:list' %}"
+                    hx-target="#contacts_container"
+                    hx-push-url="true"
+                    hx-on:clean="console.log('Refreshing list...')">
+                Refresh Table
+            </button>
+            <a href="{% url 'contacts:list' %}" class="link ml-4 btn btn-soft btn-info btn-sm">Full Refresh</a>
         </div>
         <div id="contacts_container">
             {% include 'contacts/partials/contacts-list-container.html' %}

@@ -1,3 +1,4 @@
+{% load widget_tweaks %}
 <div id="item_data">
     {% if form %}
         <h3>Edit item</h3>
@@ -10,37 +11,37 @@
                 <input type="number" class="input" name="id" value="{{ item_id }}" disabled="disabled" />
             </div>
             <div class="form-control">
-                <label class="label">
-                    <span class="label-text">First Name:</span>
-                </label>
-                <input type="text" placeholder="first name" class="input" name="first_name" autocomplete="name" value="{{ form.first_name.value }}" />
+                {{ form.first_name|add_label_class:"label text-black" }}
+                {% render_field form.first_name class="input" name="first_name" value=form.first_name.value %}
             </div>
             <div class="form-control">
-                <label class="label">
-                    <span class="label-text">Last Name:</span>
-                </label>
-                <input type="text" placeholder="last name" class="input" name="last_name" autocomplete="family-name" value="{{ form.last_name.value }}" />
+                {{ form.last_name|add_label_class:"label text-black" }}
+                {% render_field form.last_name class="input" name="last_name" value=form.last_name.value %}
             </div>
             <div class="form-control">
-                <label class="label">
-                    <span class="label-text">Email:</span>
-                </label>
-                <input type="email" placeholder="email" class="input" name="email" autocomplete="email" value="{{ form.email.value }}" />
+                {{ form.email|add_label_class:"label text-black" }}
+                {% render_field form.email class="input" name="email" value=form.email.value %}
             </div>
             <div class="form-control">
-                <label class="label">
-                    <span class="label-text">Phone Number:</span>
-                </label>
-                <input type="text" placeholder="phone number" class="input" name="phone_number" autocomplete="mobile" value="{{ form.phone_number.value }}" />
+                {{ form.phone_number|add_label_class:"label text-black" }}
+                {% render_field form.phone_number class="input" name="phone_number" value=form.phone_number.value %}
             </div>
-            <button class="btn btn-primary btn-sm" onclick="item_edit_modal.close();">
+            <div class="form-control">
+                {{ form.address|add_label_class:"label text-black" }}
+                {% render_field form.address class="textarea" placeholder="address" value=form.address.value %}
+            </div>
+            <button class="btn btn-primary btn-sm"
+                    hx-get="{% url 'contacts:list' %}"
+                    hx-target="#contacts_container"
+                    hx-on:clean="item_edit_modal.close();console.log('Table refresh triggered.')"
+                    hx-push-url="true">
                 Cancel
             </button>
             <button 
                     class="btn btn-primary btn-sm"
                     hx-post="{% url 'contacts:item-edit' pk=item_id %}"
                     hx-target="#item_data"
-                    hx-on:done="console.log('Edit ok');">
+                    hx-on:done="console.log('edit-ok');">
                 Confirm
             </button>
         </form>

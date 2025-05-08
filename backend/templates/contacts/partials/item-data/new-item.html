@@ -1,38 +1,37 @@
 {% load widget_tweaks %}
-
 <h3 class="font-bold text-lg mb-4 text-green-600">New Contact Item</h3>
-        <form id="new_item_form">
-            {% csrf_token %}
-            <div class="form-control">
-                {{ form.first_name|add_label_class:"label text-black" }}
-                {% render_field form.first_name class="input" placeholder="First Name" %}
-            </div>
-            
-            <div class="form-control">
-                {{ form.last_name|add_label_class:"label text-black" }}
-                {% render_field form.last_name class="input" placeholder="Last Name" %}
-            </div>
-            
-            <div class="form-control">
-                {{ form.email|add_label_class:"label text-black" }}
-                {% render_field form.email class="input" type="email" placeholder="Email" %}
-            </div>
-            
-            <div class="form-control">
-                {{ form.phone_number|add_label_class:"label text-black" }}
-                {% render_field form.phone_number class="input" type="text" placeholder="mobile" %}
-            </div>
+    <form id="new_item_form">
+        {% csrf_token %}
+        <div class="form-control">
+            {{ form.first_name|add_label_class:"label text-black" }}
+            {% render_field form.first_name class="input" placeholder="First Name" %}
+        </div>
         
-            <div class="form-control">
-                {{ form.address|add_label_class:"label text-black" }}
-                {% render_field form.address class="textarea" placeholder="address" %}
-            </div>
+        <div class="form-control">
+            {{ form.last_name|add_label_class:"label text-black" }}
+            {% render_field form.last_name class="input" placeholder="Last Name" %}
+        </div>
+        
+        <div class="form-control">
+            {{ form.email|add_label_class:"label text-black" }}
+            {% render_field form.email class="input" type="email" placeholder="Email" %}
+        </div>
+        
+        <div class="form-control">
+            {{ form.phone_number|add_label_class:"label text-black" }}
+            {% render_field form.phone_number class="input" type="text" placeholder="mobile" %}
+        </div>
+    
+        <div class="form-control">
+            {{ form.address|add_label_class:"label text-black" }}
+            {% render_field form.address class="textarea" placeholder="address" %}
+        </div>
 
-            <button class="btn btn-xs btn-success"
-                    hx-post="{% url 'contacts:new-item' %}"
-                    hx-target="#new_item_form_to_replace"
-                    hx-swap="innerHTML">
-                Submit
-            </button>
-        </form>
-    <button class="btn btn-xs btn-warning" onclick="new_item_modal.close();">Cancel</button>
+        <button class="btn btn-xs btn-success"
+                hx-post="{% url 'contacts:new-item' %}"
+                hx-target="#new_item_form_to_replace"
+                hx-swap="innerHTML">
+            Submit
+        </button>
+    </form>
+<button class="btn btn-xs btn-warning" onclick="new_item_modal.close();">Cancel</button>
