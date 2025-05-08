@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "neapolitan",
     'import_export',
     'widget_tweaks',
+    'django_filters',
 
     'home',
     'accounts',

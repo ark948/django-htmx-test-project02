@@ -173,6 +173,9 @@ pip install django-widget-tweaks
 20. adding custom date tag
 pip install convertdate
 
+21. adding filters
+pip install django-filter
+
 
 apps:
 contacts

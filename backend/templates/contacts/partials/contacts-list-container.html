@@ -1,60 +1,101 @@
+{% load widget_tweaks %}
 {% load ir_date %}
-<div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-200">
-    <table class="table table-sm">
-        <thead>
-            <tr>
-                <th></th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-                <th>Phone Number</th>
-                <th>Address</th>
-                <th>Created at:</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in contacts %}
-                <tr class="hover:bg-base-300">
-                    <th>{{ forloop.counter }}</th>
-                    <td>{{ item.first_name }}</td>
-                    <td>{{ item.last_name }}</td>
-                    <td>{{ item.email }}</td>
-                    <td>{{ item.phone_number }}</td>
-                    <td>{{ item.address }}</td>
-                    <td>{{ item.created_at|to_persian }}</td>
-                    <td><a class="link link-hover" 
-                            hx-get="{% url 'contacts:item-detail' pk=item.id %}"
-                            hx-trigger="click"
-                            hx-target="#data_to_replace"
-                            hx-on:success="item_modal.showModal();">
-                        View
-                        </a>
-                    </td>
-                    <td>
-                        <button 
-                            class="btn btn-soft btn-primary btn-sm"
-                            hx-get="{% url 'contacts:item-edit' pk=item.id %}"
-                            hx-trigger="click"
-                            hx-target="#edit_data_to_replace"
-                            hx-on:success="item_edit_modal.showModal();">
-                            Edit
-                        </button>
-                    </td>
-                    <td>
-                        <button 
-                            class="btn btn-soft btn-error btn-sm"
-                            hx-delete="{% url 'contacts:delete' pk=item.id %}"
-                            hx-trigger="click"
-                            hx-target="#contacts_container">
-                            Delete
-                        </button>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-        <tfoot>
-        </tfoot>
-    </table>
-    {% include 'contacts/partials/contact-new-item-modal.html' %}
+
+<!-- the Grid container -->
+<div class="grid grid-cols-4 gap-4">
+
+    <!-- 3/4 cols for table -->
+    <div class="col-span-3">
+        <div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-200">
+            <table class="table table-md">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                        <th>Address</th>
+                        <th>Created at:</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in filter.qs %}
+                        <tr class="hover:bg-base-300">
+                            <th>{{ forloop.counter }}</th>
+                            <td>{{ item.first_name }}</td>
+                            <td>{{ item.last_name }}</td>
+                            <td>{{ item.email }}</td>
+                            <td>{{ item.phone_number }}</td>
+                            <td>{{ item.address }}</td>
+                            <td>{{ item.created_at|to_persian }}</td>
+                            <td><a class="link link-hover" 
+                                    hx-get="{% url 'contacts:item-detail' pk=item.id %}"
+                                    hx-trigger="click"
+                                    hx-target="#data_to_replace"
+                                    hx-on:success="item_modal.showModal();">
+                                View
+                                </a>
+                            </td>
+                            <td>
+                                <button 
+                                    class="btn btn-soft btn-primary btn-sm"
+                                    hx-get="{% url 'contacts:item-edit' pk=item.id %}"
+                                    hx-trigger="click"
+                                    hx-target="#edit_data_to_replace"
+                                    hx-on:success="item_edit_modal.showModal();">
+                                    Edit
+                                </button>
+                            </td>
+                            <td>
+                                <button 
+                                    class="btn btn-soft btn-error btn-sm"
+                                    hx-delete="{% url 'contacts:delete' pk=item.id %}"
+                                    hx-trigger="click"
+                                    hx-target="#contacts_container">
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                </tfoot>
+            </table>
+            {% include 'contacts/partials/contact-new-item-modal.html' %}
+        </div>
+    </div>
+
+    <div class="col-span-1">
+        <div id="filter_form">
+            <h4 class="font-bold text-md text-black-400">
+                Filters
+            </h4>
+            <form method="GET" class="m-4">
+                <div class="form-control">
+                    {{ filter.form.first_name|add_label_class:"label text-black" }}
+                    {% render_field filter.form.first_name class="input" %}
+                </div>
+                <div class="form-control">
+                    {{ filter.form.last_name|add_label_class:"label text-black" }}
+                    {% render_field filter.form.last_name class="input" %}
+                </div>
+                <div class="form-control">
+                    {{ filter.form.email|add_label_class:"label text-black" }}
+                    {% render_field filter.form.email class="input" type="email" %}
+                </div>
+                <div class="form-control">
+                    {{ filter.form.phone_number|add_label_class:"label text-black" }}
+                    {% render_field filter.form.phone_number class="input" %}
+                </div>
+                <button class="btn btn-md btn-dash mt-1">
+                    Apply
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- 1/4 cols for filter form -->
+
 </div>

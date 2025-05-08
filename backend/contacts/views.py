@@ -18,6 +18,7 @@ from tablib import Dataset
 
 from .models import Contact
 from .resources import ContactModelResource
+from .filters import ContactFilter
 from . import forms
 
 # Create your views here.
@@ -30,8 +31,11 @@ def index(request: HttpRequest) -> HttpResponse:
 @login_required
 def contacts_list(request: HttpRequest) -> HttpResponse:
     context = {}
-    user_contacts = request.user.contacts.all()
-    context["contacts"] = user_contacts
+    user_contacts_filter = ContactFilter(
+        request.GET,
+        queryset=request.user.contacts.all()
+    )
+    context["filter"] = user_contacts_filter
     context["new_contact_form"] = forms.NewConctactForm()
     if request.htmx:
         response = render(request, "contacts/partials/contacts-list-container.html", context)
