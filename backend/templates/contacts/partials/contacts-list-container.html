@@ -1,3 +1,4 @@
+{% load ir_date %}
 <div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-200">
     <table class="table table-sm">
         <thead>
@@ -21,7 +22,7 @@
                     <td>{{ item.email }}</td>
                     <td>{{ item.phone_number }}</td>
                     <td>{{ item.address }}</td>
-                    <td>{{ item.created_at }}</td>
+                    <td>{{ item.created_at|to_persian }}</td>
                     <td><a class="link link-hover" 
                             hx-get="{% url 'contacts:item-detail' pk=item.id %}"
                             hx-trigger="click"

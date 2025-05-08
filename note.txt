@@ -170,6 +170,10 @@ by using htmx's hx-include
 pip install django-widget-tweaks
 
 
+20. adding custom date tag
+pip install convertdate
+
+
 apps:
 contacts
 finances

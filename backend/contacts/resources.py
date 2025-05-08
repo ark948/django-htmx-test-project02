@@ -24,7 +24,7 @@ class ContactModelResource(resources.ModelResource):
         # import_id_fields -> if all fields of a record match an existing record,
         # then do not add that record
         # sort of like a unique constraint
-        import_id_fields = (
+        import_id_fields = ( # THIS DOES NOT WORK for some reason
             'first_name',
             'last_name',
             'email',
