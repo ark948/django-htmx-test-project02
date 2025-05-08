@@ -16,6 +16,7 @@ from neapolitan.views import CRUDView
 
 
 from .models import Contact
+from .resources import ContactModelResource
 from . import forms
 
 # Create your views here.
@@ -59,7 +60,7 @@ def contact_item(request: HttpRequest, pk: int) -> HttpResponse:
 
 
 
-# REWRITE with PUT or Patch
+# REWRITE with PUT or Patch -> with api
 @login_required
 def contact_edit(request: HttpRequest, pk: int) -> HttpResponse:
     context = {}
@@ -122,6 +123,24 @@ def new_contact(request: HttpRequest) -> HttpResponse:
         context = { 'form': forms.NewConctactForm() }
         response = render(request, "contacts/partials/item-data/new-item.html", context)
         return response
+
+
+
+@login_required
+def export_csv(request: HttpRequest):
+    if request.htmx:
+        return HttpResponse( headers={'HX-Redirect': request.get_full_path()} )
+    queryset = request.user.contacts.all()
+    data = ContactModelResource().export(queryset)
+    response = HttpResponse(data.csv)
+    response['Content-Disposition'] = 'attachment; filename="contacts.csv"'
+    return response
+
+
+
+@login_required
+def import_csv(request: HttpRequest):
+    pass
 
 
 

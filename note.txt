@@ -161,7 +161,8 @@ i assume first_name and last_name are not that important
 
 18. adding import and export
 pip install django-import-export
-(skipped for now)
+NOTE: after adding filters, they must be included in export upon selection
+by using htmx's hx-include
 
 
 19. updating forms
