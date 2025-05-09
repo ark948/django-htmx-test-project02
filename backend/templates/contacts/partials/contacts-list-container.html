@@ -74,8 +74,9 @@
                 Filters
             </h4>
             <form 
-                method="GET"
-                action="{% url 'contacts:list' %}"
+                hx-get="{% url 'contacts:list' %}"
+                hx-target="#contacts_container"
+                hx-swap="innerHTML"
                 class="m-4">
                 <div class="form-control">
                     {{ filter.form.first_name|add_label_class:"label text-black" }}
@@ -84,14 +85,6 @@
                 <div class="form-control">
                     {{ filter.form.last_name|add_label_class:"label text-black" }}
                     {% render_field filter.form.last_name class="input" %}
-                </div>
-                <div class="form-control">
-                    {{ filter.form.email|add_label_class:"label text-black" }}
-                    {% render_field filter.form.email class="input" %}
-                </div>
-                <div class="form-control">
-                    {{ filter.form.phone_number|add_label_class:"label text-black" }}
-                    {% render_field filter.form.phone_number class="input" %}
                 </div>
                 <button class="btn btn-md btn-dash mt-1">
                     Apply

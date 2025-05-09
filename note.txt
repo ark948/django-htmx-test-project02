@@ -175,6 +175,8 @@ pip install convertdate
 
 21. adding filters
 pip install django-filter
+IMPORTANT: since, some fields such as email, phone_number, address use encrypted fields,
+django_filter will not work on them.
 
 
 apps:
