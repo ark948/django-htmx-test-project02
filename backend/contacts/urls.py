@@ -5,6 +5,7 @@ from . import views
 app_name = 'contacts'
 
 urlpatterns = [
+    path('email-search/', views.search_within_contacts_emails, name='email-search'),
     path('export/', views.export_csv, name='export'),
     path('import/', views.import_csv, name='import'),
     path('delete/<int:pk>/', views.delete_contact, name='delete'),

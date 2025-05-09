@@ -100,6 +100,19 @@
                 Clear
             </button>
             </form>
+            <form
+                hx-post="{% url 'contacts:email-search' %}"
+                hx-target="#contacts_container"
+                hx-swap="innerHTML">
+                {% csrf_token %}
+                <div class="form-control">
+                    <label for="email" class="lable">Search Emails:</label>
+                    <input type="text" class="input input-xs" name="email" required />
+                </div>
+                <button type="submit" class="btn btn-xs">
+                    Search
+                </button>
+            </form>
         </div>
     </div>
 </div>

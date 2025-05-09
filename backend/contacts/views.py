@@ -173,6 +173,20 @@ def import_csv(request: HttpRequest) -> HttpResponse:
 
 
 
+@login_required
+def search_within_contacts_emails(request: HttpRequest) -> HttpResponse:
+    context = {}
+    if request.method == "POST":
+        email_to_search = request.POST.get('email', '')
+        if email_to_search == "":
+            return redirect(redirect("contacts:list"))
+        contacts = Contact.objects.filter(user=request.user).all()
+        context['results'] = [i for i in contacts if email_to_search in i.email]
+        response = render(request, "contacts/partials/search/email-search-result.html", context=context)
+        return response
+
+
+
 class ContactDetailView(mixins.LoginRequiredMixin, generic.DetailView):
     model = Contact
     

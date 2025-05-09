@@ -1,0 +1,13 @@
+<div>
+    {% if results %}
+        {% for item in results %}
+            <p>
+                {{ item.email }}
+            </p>
+        {% empty %}
+            <p>
+                Nothing found.
+            </p>
+        {% endfor %}
+    {% endif %}
+</div>
