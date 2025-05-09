@@ -182,9 +182,34 @@ def search_within_contacts_emails(request: HttpRequest) -> HttpResponse:
             return redirect(redirect("contacts:list"))
         contacts = Contact.objects.filter(user=request.user).all()
         context['results'] = [i for i in contacts if email_to_search in i.email]
-        response = render(request, "contacts/partials/search/email-search-result.html", context=context)
+        response = render(request, "contacts/partials/search/search-result.html", context=context)
+        return response
+    
+
+
+@login_required
+def search_within_contacts_phone_number(request: HttpRequest) -> HttpResponse:
+    context = {}
+    if request.method == "POST":
+        phone_number_to_search = request.POST.get('phone_number', '')
+        if phone_number_to_search == "":
+            return redirect(reverse("contacts:list"))
+        contacts = Contact.objects.filter(user=request.user).all()
+        context['results'] = [i for i in contacts if phone_number_to_search in i.phone_number]
+        response = render(request, "contacts/partials/search/search-result.html", context=context)
         return response
 
+
+@login_required
+def compound_search(request: HttpRequest) -> HttpResponse:
+    context = {}
+    if request.method == "POST":
+        p = request.POST.get('phone_number')
+        e = request.POST.get('email')
+        contacts = Contact.objects.filter(user=request.user).all()
+        context['results'] = [i for i in contacts if p in i.phone_number and e in i.email]
+        response = render(request, "contacts/partials/search/search-result.html", context=context)
+        return response
 
 
 class ContactDetailView(mixins.LoginRequiredMixin, generic.DetailView):

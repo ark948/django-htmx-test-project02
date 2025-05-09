@@ -2,7 +2,7 @@
     {% if results %}
         {% for item in results %}
             <p>
-                {{ item.email }}
+                [{{ forloop.counter }} - {{ item.email }} - {{ item.phone_number }}]
             </p>
         {% empty %}
             <p>
