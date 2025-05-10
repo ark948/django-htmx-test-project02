@@ -200,6 +200,7 @@ def search_within_contacts_phone_number(request: HttpRequest) -> HttpResponse:
         return response
 
 
+
 @login_required
 def compound_search(request: HttpRequest) -> HttpResponse:
     context = {}
@@ -210,6 +211,7 @@ def compound_search(request: HttpRequest) -> HttpResponse:
         context['results'] = [i for i in contacts if p in i.phone_number and e in i.email]
         response = render(request, "contacts/partials/search/search-result.html", context=context)
         return response
+
 
 
 class ContactDetailView(mixins.LoginRequiredMixin, generic.DetailView):

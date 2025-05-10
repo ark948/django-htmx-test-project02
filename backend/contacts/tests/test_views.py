@@ -32,9 +32,9 @@ def test_contacts_list_page_context_exists(user, user_contacts, client: Client):
     client.force_login(user)
 
     response = client.get(reverse("contacts:list"))
-    assert 'contacts' in response.context
-    assert type(response.context['contacts']) == QuerySet
-    assert list(response.context['contacts']) == user_contacts
+    assert 'filter' in response.context
+    assert type(response.context['filter'].qs) == QuerySet
+    assert list(response.context['filter'].qs) == user_contacts
 
 
 
@@ -52,9 +52,9 @@ def test_contacts_list_page_context_is_appropriate(user, user_contacts, client: 
     response = client.get(reverse("contacts:list"))
 
     assert response.status_code == 200
-    assert type(response.context['contacts'][0]) == type(user_contacts[0])
-    assert response.context['contacts'][0] == user_contacts[0]
-    assert type(response.context['contacts'][0]) == Contact
+    assert type(response.context['filter'].qs[0]) == type(user_contacts[0])
+    assert response.context['filter'].qs[0] == user_contacts[0]
+    assert type(response.context['filter'].qs[0]) == Contact
 
 
 
@@ -69,4 +69,13 @@ def test_contacts_list_from_neapolitan_is_accessible_through_login(user, user_co
     client.force_login(user)
     response = client.get('/contacts/contact/')
     
+    assert response.status_code == 200
+
+
+
+@pytest.mark.django_db
+def test_contacts_contact_item_view(user, user_contacts, client: Client):
+    client.force_login(user)
+    response = client.get(reverse("contacts:item-detail", kwargs={'pk': 1}))
+
     assert response.status_code == 200
