@@ -1,7 +1,7 @@
 from typing import Any
 from http import HTTPStatus
 from django.db.models.query import QuerySet
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.http.request import HttpRequest
 from django.http.response import HttpResponse, FileResponse, HttpResponseBadRequest
@@ -14,6 +14,7 @@ from django.views.decorators.http import require_http_methods
 from django.contrib import messages
 from neapolitan.views import CRUDView
 from tablib import Dataset
+from django.core.exceptions import PermissionDenied
 
 
 from .models import Contact
@@ -53,11 +54,11 @@ def contact_item(request: HttpRequest, pk: int) -> HttpResponse:
         contact_item = Contact.objects.get(pk=pk)
         if contact_item.user == request.user:
             context['item'] = contact_item
-        else:
-            raise Contact.DoesNotExist
+    except Contact.DoesNotExist as error:
+        messages.error(request, "Such contact does not exist, or does not belong to you.")
+        return redirect(reverse("contacts:list"))
     except Exception as error:
-        print("ERROR -> ", error)
-        messages.error("Such contact does not exist, or does not belong to you.")
+        messages.error(request, "Sorry, we encountered an unknown problem, please check your input and try again in a while.")
         return redirect(reverse("contacts:list"))
     response = render(request, "contacts/partials/item-data/item.html", context)
     response["HX-Trigger"] = 'success'
@@ -116,6 +117,17 @@ def delete_contact(request: HttpRequest, pk: int) -> HttpResponse:
         messages.error(request, "Sorry, such contact does not exist, or does not belong to you.")
         return redirect(reverse("contacts:list"))
     item_to_delete.delete()
+    return redirect(reverse("contacts:list"))
+
+
+
+@login_required
+@require_http_methods(['DELETE'])
+def delete_contact_revised_v1(request: HttpRequest, pk: int):
+    item = get_object_or_404(Contact, pk=pk)
+    if item.user != request.user:
+        raise PermissionDenied("You do not have permission to perform this action.")
+    item.delete()
     return redirect(reverse("contacts:list"))
 
 
