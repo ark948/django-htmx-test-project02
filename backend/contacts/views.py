@@ -102,6 +102,7 @@ def contact_edit(request: HttpRequest, pk: int) -> HttpResponse:
     return response
 
 
+# not used
 @login_required
 def contact_edit_2(request: HttpRequest, pk: int):
     context = {}
@@ -139,10 +140,7 @@ def delete_contact(request: HttpRequest, pk: int) -> HttpResponse:
         messages.error(request, "Sorry, such contact does not exist, or does not belong to you.")
         return redirect(reverse("contacts:list"))
     item_to_delete.delete()
-    user_contacts = Contact.objects.filter(user=request.user)
-    context["contacts"] = user_contacts
-    response = render(request, "contacts/partials/contacts-list-container.html", context)
-    return response
+    return redirect(reverse("contacts:list"))
 
 
 
@@ -157,10 +155,13 @@ def new_contact(request: HttpRequest) -> HttpResponse:
             response = render(request, "contacts/partials/new-item-success.html", { 'message': "Item successfully added." })
             response['HX-Trigger'] = "done"
             return response
-    else:
-        context = { 'form': forms.NewConctactForm() }
-        response = render(request, "contacts/partials/item-data/new-item.html", context)
-        return response
+        else:
+            response = render(request, "contacts/partials/item-data/new-item.html", { "form": form }, status=HTTPStatus.UNPROCESSABLE_ENTITY)
+            response['HX-Retarget'] = "#new_item_form"
+            return response
+    context = { 'form': forms.NewConctactForm() }
+    response = render(request, "contacts/partials/item-data/new-item.html", context)
+    return response
 
 
 
