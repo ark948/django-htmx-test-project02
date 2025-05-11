@@ -123,7 +123,7 @@ def delete_contact(request: HttpRequest, pk: int) -> HttpResponse:
 
 @login_required
 @require_http_methods(['DELETE'])
-def delete_contact_revised_v1(request: HttpRequest, pk: int):
+def delete_contact_v2(request: HttpRequest, pk: int):
     item = get_object_or_404(Contact, pk=pk)
     if item.user != request.user:
         raise PermissionDenied("You do not have permission to perform this action.")
@@ -155,12 +155,12 @@ def new_contact(request: HttpRequest) -> HttpResponse:
 
 # Rewriting new contact view
 @login_required
-def new_contact_v2(request: HttpRequest):
+def new_contact_v2(request: HttpRequest) -> HttpResponse:
     context = {}
     if request.method == "POST":
         form = forms.NewConctactForm(request.POST)
         if form.is_valid():
-            contact = form.save(commit=False)
+            contact: Contact = form.save(commit=False)
             contact.user = request.user
             contact.save()
             context['message'] = "New item added successfully."
