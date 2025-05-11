@@ -58,4 +58,9 @@
             {% include 'contacts/partials/contacts-list-container.html' %}
         </div>
     </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", (evt) => {
+            console.log("Testing custom javascript code in Django + HTMX app");
+        });
+    </script>
 {% endblock content %}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<h1>Edit item {{ item.pk }} - {{ item.email }}</h1>
+    {% if form %}
+
+        <form action="{% url 'contacts:regular-edit' pk=item.pk %}" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">
+                Confirm
+            </button>
+        </form>
+
+    {% endif %}
+{% endblock content %}

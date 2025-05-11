@@ -6,6 +6,7 @@ from pytest_django.asserts import assertRedirects
 from django.db.models import QuerySet
 
 from contacts.models import Contact
+from contacts.forms import ContactItemEditForm
 
 
 @pytest.mark.django_db
@@ -79,3 +80,61 @@ def test_contacts_contact_item_view(user, user_contacts, client: Client):
     response = client.get(reverse("contacts:item-detail", kwargs={'pk': 1}))
 
     assert response.status_code == 200
+    assertTemplateUsed(response, "contacts/partials/item-data/item.html")
+    assert response.context['item'] == user_contacts[0]
+    item_a = response.context['item']
+    item_b = user_contacts[0]
+    assert item_a.id == item_b.id
+    assert item_a.first_name == item_b.first_name
+    assert item_a.last_name == item_b.last_name
+    assert item_a.full_name == item_b.full_name
+    assert item_a.email == item_b.email
+    assert item_a.phone_number == item_b.phone_number
+    assert item_a.address == item_b.address
+    assert item_a.created_at == item_b.created_at
+
+    assert type(response.context['item']) == Contact
+
+
+
+@pytest.mark.skip
+def test_contacts_contact_edit(user, user_one_item, client: Client):
+    client.force_login(user)
+    
+    # CHECKING ITEM BEFORE
+    item = client.get( reverse('contacts:item-detail', kwargs={'pk': user_one_item.pk}) ).context['item']
+    print(item.first_name)
+
+    # ATTEMPTING TO UPDATE
+    response = client.post( reverse("contacts:item-edit", kwargs={"pk": user_one_item.pk}), {"first_name": "shit"},
+            headers = {'HTTP_HX-Request': 'true'}
+        )
+    assert response.status_code == 200
+
+    # CHECKING ITEM AFTER
+    item = client.get( reverse('contacts:item-detail', kwargs={'pk': user_one_item.pk}) ).context['item']
+    print(item.first_name)
+
+
+
+# This is very weird
+@pytest.mark.django_db
+def test_contacts_contact_edit(user, user_one_item, client: Client):
+    client.force_login(user)
+    
+    # CHECKING ITEM BEFORE
+    item = client.get( reverse('contacts:item-detail', kwargs={'pk': user_one_item.pk}) ).context['item']
+    print(item.first_name)
+
+    # ATTEMPTING TO UPDATE
+    response = client.post( 
+            reverse("contacts:item-edit", kwargs={"pk": user_one_item.pk}),
+            data={
+                "first_name": "Bob",
+                "phone_number": user_one_item.phone_number
+            },
+            headers = {'HTTP_HX-Request': 'true'}
+        )
+    
+    item = client.get( reverse('contacts:item-detail', kwargs={'pk': user_one_item.pk}) ).context['item']
+    print(item.first_name)

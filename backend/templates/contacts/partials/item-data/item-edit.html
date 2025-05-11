@@ -13,22 +13,47 @@
             <div class="form-control">
                 {{ form.first_name|add_label_class:"label text-black" }}
                 {% render_field form.first_name class="input" name="first_name" value=form.first_name.value %}
+                {% if form.first_name.errors %}
+                    <label class="label text-error">
+                        {{ form.first_name.errors }}
+                    </label>
+                {% endif %}
             </div>
             <div class="form-control">
                 {{ form.last_name|add_label_class:"label text-black" }}
                 {% render_field form.last_name class="input" name="last_name" value=form.last_name.value %}
+                {% if form.last_name.errors %}
+                    <label class="label text-error">
+                        {{ form.last_name.errors }}
+                    </label>
+                {% endif %}
             </div>
             <div class="form-control">
                 {{ form.email|add_label_class:"label text-black" }}
                 {% render_field form.email class="input" name="email" value=form.email.value %}
+                {% if form.email.errors %}
+                    <label class="label text-error">
+                        {{ form.email.errors }}
+                    </label>
+                {% endif %}
             </div>
             <div class="form-control">
                 {{ form.phone_number|add_label_class:"label text-black" }}
                 {% render_field form.phone_number class="input" name="phone_number" value=form.phone_number.value %}
+                {% if form.phone_number.errors %}
+                    <label class="label text-error">
+                        {{ form.phone_number.errors }}
+                    </label>
+                {% endif %}
             </div>
             <div class="form-control">
                 {{ form.address|add_label_class:"label text-black" }}
                 {% render_field form.address class="textarea" placeholder="address" value=form.address.value %}
+                {% if form.address.errors %}
+                    <label class="label text-error">
+                        {{ form.address.errors }}
+                    </label>
+                {% endif %}
             </div>
             <button class="btn btn-primary btn-sm"
                     hx-get="{% url 'contacts:list' %}"

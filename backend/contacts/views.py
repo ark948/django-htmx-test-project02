@@ -4,7 +4,7 @@ from django.db.models.query import QuerySet
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.http.request import HttpRequest
-from django.http.response import HttpResponse, FileResponse
+from django.http.response import HttpResponse, FileResponse, HttpResponseBadRequest
 from django.views import generic
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import mixins
@@ -65,7 +65,6 @@ def contact_item(request: HttpRequest, pk: int) -> HttpResponse:
 
 
 
-# REWRITE with PUT or Patch -> with api
 @login_required
 def contact_edit(request: HttpRequest, pk: int) -> HttpResponse:
     context = {}
@@ -85,11 +84,45 @@ def contact_edit(request: HttpRequest, pk: int) -> HttpResponse:
             response = render(request, "contacts/partials/edit-success.html", context)
             response["HX-Trigger"] = "done"
             return response
+        else:
+            context['form'] = form # will contain errors
+            context['item_id'] = item.pk
+            response = render(request, "contacts/partials/item-data/item-edit.html", context, status=HTTPStatus.UNPROCESSABLE_ENTITY)
+            # if form contains errors, we do not want to replace the current target,
+            # we must just replace the modal form itself, with the new form containing errors
+            # so we use retarget 
+            response['HX-Retarget'] = "#item_data"
+            # response['HX-Reswap'] = 'outerHTML' # not necessary in our case
+            # response['HX-Trigger-After-Settle'] = "fail" # to keep the modal open - not necessary in our case
+            return response
     context['form'] = forms.ContactItemEditForm(initial=model_to_dict(item))
     context['item_id'] = item.pk
     response = render(request, "contacts/partials/item-data/item-edit.html", context)
     response["HX-Trigger"] = 'success'
     return response
+
+
+@login_required
+def contact_edit_2(request: HttpRequest, pk: int):
+    context = {}
+    try:
+        item = Contact.objects.get(pk=pk)
+        if item.user != request.user:
+            raise Contact.DoesNotExist("Such primary key does not exist, or does not belong to you.")
+    except Exception as error:
+        print("ERROR -> ", error)
+        messages.error(request, "Sorry, such contact does not exist, or does not belong to you.")
+        return redirect(reverse("contacts:list"))
+    if request.method == "POST":
+        form = forms.ContactItemEditForm(request.POST, instance=item)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Edit ok")
+            return redirect(reverse("contacts:list"))
+    form = forms.ContactItemEditForm(initial=model_to_dict(item))
+    context['form'] = form
+    context['item'] = item
+    return render(request, "contacts/non-htmx/edit.html", context)
 
 
 

@@ -3,12 +3,26 @@ import pytest
 
 from accounts.factories import UserFactory
 from contacts.factories import ContactFactory
+from contacts.models import Contact
 
 
 @pytest.fixture
 def user():
     return UserFactory()
 
+
+@pytest.fixture
+def user_one_item(user):
+    item = Contact(
+        first_name = 'John',
+        last_name = 'Doe',
+        email = "johndoe@gmail.com",
+        phone_number = '111000222',
+        address = 'USA, New York',
+        user=user
+    )
+    item.save()
+    return item
 
 
 @pytest.fixture
