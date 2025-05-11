@@ -5,7 +5,6 @@ from . import views
 app_name = 'contacts'
 
 urlpatterns = [
-    path('regular-edit/<int:pk>/', views.contact_edit_2, name='regular-edit'),
     path('compound-serach/', views.compound_search, name='compound'),
     path('phone-number-search/', views.search_within_contacts_phone_number, name='phone-search'),
     path('email-search/', views.search_within_contacts_emails, name='email-search'),

@@ -102,30 +102,6 @@ def contact_edit(request: HttpRequest, pk: int) -> HttpResponse:
     return response
 
 
-# not used
-@login_required
-def contact_edit_2(request: HttpRequest, pk: int):
-    context = {}
-    try:
-        item = Contact.objects.get(pk=pk)
-        if item.user != request.user:
-            raise Contact.DoesNotExist("Such primary key does not exist, or does not belong to you.")
-    except Exception as error:
-        print("ERROR -> ", error)
-        messages.error(request, "Sorry, such contact does not exist, or does not belong to you.")
-        return redirect(reverse("contacts:list"))
-    if request.method == "POST":
-        form = forms.ContactItemEditForm(request.POST, instance=item)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Edit ok")
-            return redirect(reverse("contacts:list"))
-    form = forms.ContactItemEditForm(initial=model_to_dict(item))
-    context['form'] = form
-    context['item'] = item
-    return render(request, "contacts/non-htmx/edit.html", context)
-
-
 
 @login_required
 @require_http_methods(["DELETE"])
