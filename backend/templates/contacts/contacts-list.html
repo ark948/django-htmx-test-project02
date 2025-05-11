@@ -4,6 +4,7 @@
     {% include 'contacts/partials/contact-item-modal.html' %}
     {% include 'contacts/partials/contact-item-edit-modal.html' %}
     {% include 'contacts/partials/import-contacts-modal.html' %}
+    {% include 'contacts/partials/modals/new-contact-modal-container.html' %}
     <div class="overflow-x-auto" id="contacts_block">
         <h1 class="font-bold text-xl text-black-500 mb-4 mt-4 inline-block">
             Contacts
@@ -18,6 +19,16 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                 </svg>                                 
                 New
+            </button>
+            <button 
+                class="btn btn-accent btn-sm" 
+                onclick="new_contact_modal_container.showModal();" 
+                hx-get="{% url 'contacts:new' %}"
+                hx-target="#response_holder">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>                                 
+                New (V2)
             </button>
             <button
                 class="btn btn-outline btn-secondary btn-sm"

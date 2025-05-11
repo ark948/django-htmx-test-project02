@@ -124,7 +124,7 @@ def test_contacts_contact_edit(user, user_one_item, client: Client):
     
     # CHECKING ITEM BEFORE
     item = client.get( reverse('contacts:item-detail', kwargs={'pk': user_one_item.pk}) ).context['item']
-    print(item.first_name)
+    assert user_one_item.first_name == "John"
 
     # ATTEMPTING TO UPDATE
     response = client.post( 
@@ -136,5 +136,7 @@ def test_contacts_contact_edit(user, user_one_item, client: Client):
             headers = {'HTTP_HX-Request': 'true'}
         )
     
-    item = client.get( reverse('contacts:item-detail', kwargs={'pk': user_one_item.pk}) ).context['item']
-    print(item.first_name)
+    # CHECKING ITEM AFTER
+    item: Contact = client.get( reverse('contacts:item-detail', kwargs={'pk': user_one_item.pk}) ).context['item']
+    assert item.first_name == "Bob"
+    assert item.first_name != "John"

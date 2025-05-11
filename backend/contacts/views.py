@@ -153,6 +153,29 @@ def new_contact(request: HttpRequest) -> HttpResponse:
 
 
 
+# Rewriting new contact view
+@login_required
+def new_contact_v2(request: HttpRequest):
+    context = {}
+    if request.method == "POST":
+        form = forms.NewConctactForm(request.POST)
+        if form.is_valid():
+            contact = form.save(commit=False)
+            contact.user = request.user
+            contact.save()
+            context['message'] = "New item added successfully."
+            response = render(request, "contacts/partials/messages/successful-new-contact-message.html", context, status=HTTPStatus.ACCEPTED)
+            response['HX-Target'] = "success"
+            return response
+        else:
+            context['form'] = form
+            response = render(request, "contacts/partials/forms/new-contact-form.html", context)
+            return response
+    context['form'] = forms.NewConctactForm()
+    return render(request, "contacts/partials/forms/new-contact-form.html", context)
+
+
+
 @login_required
 def export_csv(request: HttpRequest) -> FileResponse:
     if request.htmx:

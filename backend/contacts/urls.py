@@ -19,5 +19,10 @@ urlpatterns = [
 ]
 
 
+# New revised routes
+urlpatterns.append(
+    path('revised/new-contact/', views.new_contact_v2, name='new')
+)
+
 # Django Neapolitan, could act as a backup, maybe
 urlpatterns += views.ContactView.get_urls()
