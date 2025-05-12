@@ -18,9 +18,15 @@
                 <input type="password" placeholder="Password" class="input" name="password" autocomplete="current-password" />
             </div>
             <div class="modal-action">
-                <button type="button" class="btn" onclick="login_modal.close()">Cancel</button>
                 <button type="submit" class="btn btn-primary btn-sm">Login</button>
             </div>
         </form>
+        <button 
+            class="btn" 
+            onclick="login_modal.close()"
+            hx-get="{% url 'accounts:re-home' %}"
+            hx-push-url="true">
+            Cancel
+        </button>
     </div>
 </dialog>

@@ -148,3 +148,10 @@ def logout_user(request: HttpRequest) -> None:
     else:
         print("\nError\n")
     return redirect(reverse('home:index'))
+
+
+
+def redirect_to_home(request):
+    response = HttpResponse()
+    response['HX-Redirect'] = reverse("home:index")
+    return response
