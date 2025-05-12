@@ -179,6 +179,15 @@ IMPORTANT: since, some fields such as email, phone_number, address use encrypted
 django_filter will not work on them.
 
 
+22. Changing django settings structure
+following best practices guides from https://github.com/HackSoftware/Django-Styleguide
+immediately update settings.py, manage.py
+(references to core was changed to config)
+created appropriate settings files (local, test and production)
+created env file next to manage.py file
+now installing django-environ
+
+
 apps:
 contacts
 finances
