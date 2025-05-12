@@ -169,7 +169,8 @@ def new_contact_v2(request: HttpRequest) -> HttpResponse:
             return response
         else:
             context['form'] = form
-            response = render(request, "contacts/partials/forms/new-contact-form.html", context)
+            # if status code is set to unprocessable entitiy (422), form errors feedback will not be displayed
+            response = render(request, "contacts/partials/forms/new-contact-form.html", context=context)
             return response
     context['form'] = forms.NewConctactForm()
     return render(request, "contacts/partials/forms/new-contact-form.html", context)
