@@ -59,6 +59,11 @@
             {% include 'contacts/partials/contacts-list-container.html' %}
         </div>
     </div>
+    <div>
+        <a class="btn btn-primary btn-xs m-2 w-20" href="{% url 'home:index' %}">
+            Back
+        </a>
+    </div>
     <script>
         document.addEventListener("DOMContentLoaded", (evt) => {
             console.log("Testing custom javascript code in Django + HTMX app");

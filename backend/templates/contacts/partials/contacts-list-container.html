@@ -30,7 +30,7 @@
                             <td>{{ item.address }}</td>
                             <td>{{ item.created_at|to_persian }}</td>
                             <td>
-                                <button class="btn btn-soft btn-success btn-sm"
+                                <button class="btn btn-success btn-sm opacity-100 w-14"
                                         hx-get="{% url 'contacts:item-detail' pk=item.id %}"
                                         hx-trigger="click"
                                         hx-target="#data_to_replace"
@@ -40,7 +40,7 @@
                             </td>
                             <td>
                                 <button 
-                                    class="btn btn-soft btn-primary btn-sm"
+                                    class="btn btn-primary btn-sm opacity-100 w-14"
                                     hx-get="{% url 'contacts:item-edit' pk=item.id %}"
                                     hx-trigger="click"
                                     hx-target="#edit_data_to_replace"
@@ -50,7 +50,7 @@
                             </td>
                             <td>
                                 <button 
-                                    class="btn btn-soft btn-error btn-sm"
+                                    class="btn btn-error btn-sm opacity-100 w-14"
                                     hx-delete="{% url 'contacts:delete' pk=item.id %}"
                                     hx-trigger="click"
                                     hx-target="#contacts_container">
