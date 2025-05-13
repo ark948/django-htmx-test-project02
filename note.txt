@@ -191,6 +191,11 @@ one example is that now pytest command does not work
 Update: pytest.ini was fixed by changing DJANGO_SETTINGS_MODULE
 
 
+23. Some helpful recommendations from:
+https://github.com/HackSoftware/Django-Styleguide
+services -> where business logic lives
+
+
 IMPORTANT: Apparently, pytest fixtures values do not change
 
 

@@ -21,6 +21,7 @@ from .models import Contact
 from .resources import ContactModelResource
 from .filters import ContactFilter
 from . import forms
+from . import services
 
 # Create your views here.
 
@@ -198,25 +199,16 @@ def import_csv(request: HttpRequest) -> HttpResponse:
     context = {}
     if request.method == "POST":
         file = request.FILES.get('file')
-        resource = ContactModelResource()
-        dataset = Dataset()
-        dataset.load(file.read().decode(), format='csv')
-        result = resource.import_data(dataset=dataset, user=request.user, dry_run=True)
-
-        for row in result:
-            for error in row.errors:
-                print("ROW error ->", error)
-
-        if not result.has_errors():
-            resource.import_data(dataset=dataset, user=request.user, dry_run=False)
-            context['message'] = f"{len(dataset)} contacts were added successfully."
+        resposne = services.generate_csv(file=file, user=request.user)
+        if resposne['status'] == True:
+            context['message'] = f"{resposne['count']} contacts were added successfully."
             return render(request, "contacts/partials/import-message.html", context=context)
-        else:
+        elif resposne['status'] == False:
             context['message'] = "Sorry, we were unable to process the file, Please check it and try again."
             return render(request, "contacts/partials/import-message.html", context=context)
-    else:
-        context['form'] = forms.CsvFileImportForm()
-        return render(request, "contacts/partials/item-data/import-file.html", context=context)
+        
+    context['form'] = forms.CsvFileImportForm()
+    return render(request, "contacts/partials/item-data/import-file.html", context=context)
 
 
 
