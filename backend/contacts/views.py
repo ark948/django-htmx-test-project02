@@ -105,7 +105,7 @@ def contact_edit(request: HttpRequest, pk: int) -> HttpResponse:
     return response
 
 
-
+# NOT USED
 @login_required
 @require_http_methods(["DELETE"])
 def delete_contact(request: HttpRequest, pk: int) -> HttpResponse:
@@ -130,7 +130,10 @@ def delete_contact_v2(request: HttpRequest, pk: int):
     if item.user != request.user:
         raise PermissionDenied("You do not have permission to perform this action.")
     item.delete()
-    return redirect(reverse("contacts:list"))
+    response = HttpResponse()
+    messages.info(request, "Item deleted successfully.")
+    response['HX-Redirect'] = reverse("contacts:list")
+    return response
 
 
 
@@ -202,13 +205,11 @@ def import_csv(request: HttpRequest) -> HttpResponse:
         resposne = services.generate_csv(file=file, user=request.user)
         if resposne['status'] == True:
             context['message'] = f"{resposne['count']} contacts were added successfully."
-            return render(request, "contacts/partials/import-message.html", context=context)
         elif resposne['status'] == False:
             context['message'] = "Sorry, we were unable to process the file, Please check it and try again."
-            return render(request, "contacts/partials/import-message.html", context=context)
+        return render(request, "contacts/partials/import-message.html", context=context)
         
-    context['form'] = forms.CsvFileImportForm()
-    return render(request, "contacts/partials/item-data/import-file.html", context=context)
+    return render(request, "contacts/partials/item-data/import-file.html", context={'form': forms.CsvFileImportForm()})
 
 
 

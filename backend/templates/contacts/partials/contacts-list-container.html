@@ -114,11 +114,11 @@
                 </button>
             </form>
             <form
-                class="mt-4"
                 id="phone_number_filter_form"
                 hx-post="{% url 'contacts:phone-search' %}"
                 hx-target="#contacts_container"
-                hx-swap="innerHTML">
+                hx-swap="innerHTML"
+                class="m-4">
                 {% csrf_token %}
                 <div class="form-control">
                     <label for="phone_number" class="label">Search Phone Number:</label>
@@ -128,7 +128,7 @@
                     Apply
                 </button>
             </form>
-            <button class="btn btn-outline btn-sm mt-4"
+            <button class="btn btn-outline btn-sm ml-4"
                     hx-post="{% url 'contacts:compound' %}"
                     hx-include="[id=email_filter_form], [id=phone_number_filter_form]"
                     hx-target="#contacts_container"
