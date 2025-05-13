@@ -22,7 +22,7 @@ def create_contact(
 
 
 
-def generate_csv(file: File, user: CustomUser) -> dict:
+def read_csv(file: File, user: CustomUser) -> dict:
     try:
         response = {}
         resource = ContactModelResource()

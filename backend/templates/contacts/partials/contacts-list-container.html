@@ -65,6 +65,9 @@
             </table>
             {% include 'contacts/partials/contact-new-item-modal.html' %}
         </div>
+        <div class="font-bold mt-4">
+            Total: {{ filter.qs.get_total_contacts }}
+        </div>
     </div>
 
     
