@@ -99,6 +99,7 @@
             </button>
             </form>
             <form
+                class="m-4"
                 id="email_filter_form"
                 hx-post="{% url 'contacts:email-search' %}"
                 hx-target="#contacts_container"
@@ -108,11 +109,12 @@
                     <label for="email" class="label">Search Emails:</label>
                     <input type="text" class="input input-xs" name="email" required />
                 </div>
-                <button type="submit" class="btn btn-xs btn-dash">
+                <button type="submit" class="btn btn-xs btn-dash mt-2">
                     Apply
                 </button>
             </form>
             <form
+                class="mt-4"
                 id="phone_number_filter_form"
                 hx-post="{% url 'contacts:phone-search' %}"
                 hx-target="#contacts_container"
@@ -122,11 +124,11 @@
                     <label for="phone_number" class="label">Search Phone Number:</label>
                     <input type="text" class="input input-xs" name="phone_number" required />
                 </div>
-                <button type="submit" class="btn btn-xs btn-dash">
+                <button type="submit" class="btn btn-xs btn-dash mt-2">
                     Apply
                 </button>
             </form>
-            <button class="btn btn-outline btn-sm"
+            <button class="btn btn-outline btn-sm mt-4"
                     hx-post="{% url 'contacts:compound' %}"
                     hx-include="[id=email_filter_form], [id=phone_number_filter_form]"
                     hx-target="#contacts_container"
