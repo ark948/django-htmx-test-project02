@@ -14,9 +14,12 @@
 
 </head>
 <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+    <div class="navbar bg-base-100 shadow-sm">
+        <a class="btn btn-ghost text-xl">DjangoStuff</a>
+    </div>
     <div class="m-12">
         <div class="flex items-center">
-            <div class="m-4" id="user-login-status">
+            <div id="user-login-status">
                 {% include 'accounts/partials/user-status.html' %}
             </div>
             {% if messages %}
