@@ -1,12 +1,12 @@
-from django.db import models
+from django.db.models import QuerySet, Manager
 
 
-
-# not required for now
-class ContactModelCustomManager(models.Manager):
+# not used
+class ContactModelCustomManager(Manager):
     pass
 
 
-# not required for now
-class ContactModelCustomQuerySet(models.QuerySet):
-    pass
+class ContactModelCustomQuerySet(QuerySet):
+
+    def get_total_contacts(self) -> int:
+        return len(self.all())

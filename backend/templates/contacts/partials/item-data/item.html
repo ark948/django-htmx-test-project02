@@ -1,15 +1,16 @@
 <div id="item_data">
     {% if item %}
-        <p>First Name: {{ item.first_name }}</p>
-        <p>Last Name: {{ item.last_name }}</p>
-        <p>Email: {{ item.email }}</p>
-        <p>Phone Number: {{ item.phone_number }}</p>
-        <p>Address: {{ item.address }}</p>
-        <p>Added on: {{ item.created_at }}</p>
+        <p class="m-4">First Name: {{ item.first_name }}</p>
+        <p class="m-4">Last Name: {{ item.last_name }}</p>
+        <p class="m-4">Full Name: {{ item.full_name }}</p>
+        <p class="m-4">Email: {{ item.email }}</p>
+        <p class="m-4">Phone Number: {{ item.phone_number }}</p>
+        <p class="m-4">Address: {{ item.address }}</p>
+        <p class="m-4">Added on: {{ item.created_at }}</p>
     {% else %}
         <p>No item selected.</p>
     {% endif %}
-    <button class="btn btn-primary btn-sm" onclick="item_modal.close();">
+    <button class="btn btn-primary btn-sm m-4" onclick="item_modal.close();">
         OK
     </button>
 </div>

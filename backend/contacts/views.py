@@ -38,6 +38,7 @@ def contacts_list(request: HttpRequest) -> HttpResponse:
     )
     context["filter"] = user_contacts_filter
     context["new_contact_form"] = forms.NewConctactForm()
+    context['total_contacts'] = user_contacts_filter.qs.get_total_contacts()
     if request.htmx:
         response = render(request, "contacts/partials/contacts-list-container.html", context)
         response['HX-Trigger'] = "clean"

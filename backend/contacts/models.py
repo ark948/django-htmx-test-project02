@@ -1,8 +1,8 @@
 from django.db import models
-
 from encrypted_fields.fields import EncryptedEmailField, EncryptedCharField, EncryptedTextField
 
 from accounts.models import CustomUser
+from contacts.managers import ContactModelCustomQuerySet
 
 # Create your models here.
 
@@ -15,6 +15,8 @@ class Contact(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey( CustomUser, on_delete=models.CASCADE, related_name='contacts' ) # user.contacts.all() 
 
+    objects = ContactModelCustomQuerySet.as_manager()
+
     class Meta:
         unique_together = ('user', 'email')
         ordering = ['created_at']
@@ -22,10 +24,13 @@ class Contact(models.Model):
 
     @property
     def full_name(self) -> str:
-        return self.first_name + self.last_name
+        if self.first_name and self.last_name:
+            return f"{self.first_name} {self.last_name}"
+        else:
+            return None
 
     def __str__(self) -> str:
-        return f"[{self.full_name} <{self.email}>]"
+        return f"[ContactObj_{self.pk}]"
     
 
 
