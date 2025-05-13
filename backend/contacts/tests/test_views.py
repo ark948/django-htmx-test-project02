@@ -140,3 +140,40 @@ def test_contacts_contact_edit(user, user_one_item, client: Client):
     item: Contact = client.get( reverse('contacts:item-detail', kwargs={'pk': user_one_item.pk}) ).context['item']
     assert item.first_name == "Bob"
     assert item.first_name != "John"
+
+
+
+@pytest.mark.django_db
+def test_contacts_contact_delete(user, user_contacts, client: Client):
+    client.force_login(user)
+
+    contacts = user.contacts.all()
+    assert len(contacts) == 5
+
+    response = client.delete( path=reverse("contacts:delete", kwargs={"pk": 5}), follow=True )
+    contacts = user.contacts.all()
+    assert len(contacts) == 4
+
+    response = client.delete( path=reverse("contacts:delete", kwargs={"pk": 4}), follow=True )
+    contacts = user.contacts.all()
+    assert len(contacts) == 3
+
+
+@pytest.mark.django_db
+def test_contacts_new_contact_item(user, client: Client):
+    contacts = user.contacts.all()
+    assert len(contacts) == 0
+
+    client.force_login(user)
+    response = client.post(
+        path=reverse('contacts:new'),
+        data = {
+            'first_name': "some_first_name",
+            'phone_number': "111000222"
+        },
+        headers = {'HTTP_HX-Request': 'true'}
+    )
+
+    assert response.status_code == 202
+    contacts = user.contacts.all()
+    assert len(contacts) == 1

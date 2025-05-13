@@ -186,6 +186,11 @@ immediately update settings.py, manage.py
 created appropriate settings files (local, test and production)
 created env file next to manage.py file
 now installing django-environ
+UPDATE: this action will probably cause further problems that require modification
+one example is that now pytest command does not work
+
+
+IMPORTANT: Apparently, pytest fixtures values do not change
 
 
 potential apps:

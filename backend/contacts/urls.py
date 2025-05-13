@@ -14,10 +14,6 @@ urlpatterns = [
     path('item-detail/<int:pk>/', views.contact_item, name='item-detail'),
     path('list/', views.contacts_list, name='list'),
     path('', views.index, name='index'),
-
-    # Removed paths
-    # path('new/', views.new_contact, name='new-item'),
-    # path('delete/<int:pk>/', views.delete_contact, name='delete'),
 ]
 
 
