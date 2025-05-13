@@ -9,7 +9,7 @@ class NewConctactForm(forms.ModelForm):
         model = Contact
         fields = ('first_name', 'last_name', 'email', 'phone_number', 'address')
 
-    # dummy validation, replace with real one
+    # dummy validation
     def clean_first_name(self):
         first_name = self.cleaned_data['first_name']
         if first_name.startswith('x'):
@@ -22,7 +22,7 @@ class ContactItemEditForm(forms.ModelForm):
         model = Contact
         fields = ('first_name', 'last_name', 'email', 'phone_number', 'address')
 
-    # dummy validation, replace with real one
+    # dummy validation
     def clean_first_name(self):
         first_name = self.cleaned_data['first_name']
         if first_name.startswith('X'):

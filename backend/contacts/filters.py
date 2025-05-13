@@ -6,14 +6,9 @@ from .models import Contact
 
 
 class ContactFilter(django_filters.FilterSet):
-    first_name = django_filters.CharFilter( # ok
-        field_name='first_name', lookup_expr="icontains"
-    )
-
-    last_name = django_filters.CharFilter( # ok
-        field_name='last_name', lookup_expr="icontains"
-    )
-
+    first_name = django_filters.CharFilter( field_name='first_name', lookup_expr="icontains" )
+    last_name = django_filters.CharFilter( field_name='last_name', lookup_expr="icontains" )
+    # encrypted fields may not work
 
     class Meta:
         model = Contact
