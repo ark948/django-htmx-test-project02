@@ -2,7 +2,12 @@
 <div>
     {% if form %}
         <h3 class="font-bold text-lg mb-4">Import from CSV file</h3>
-        <form class="mb-4 form" hx-encoding="multipart/form-data" hx-post="{% url 'contacts:import' %}">
+        <form 
+            class="mb-4 form" 
+            hx-encoding="multipart/form-data" 
+            hx-post="{% url 'contacts:import' %}"
+            hx-target="#import_response_holder"
+            hx-swap="outerHTML">
             {% csrf_token %}
             <div class="form-control">
                 {{ form.file|add_label_class:"label text-black" }}
@@ -19,7 +24,7 @@
             hx-target="#contacts_container"
             hx-on:clean="upload_modal_container.close();console.log('Close.')"
             hx-push-url="true">
-        Cancel
-    </button>
+                Cancel
+        </button>
     {% endif %}
 </div>
