@@ -17,7 +17,7 @@
             class="btn btn-error btn-sm mb-4"
             hx-get="{% url 'contacts:list' %}"
             hx-target="#contacts_container"
-            hx-on:clean="upload_modal.close();console.log('Close.')"
+            hx-on:clean="upload_modal_container.close();console.log('Close.')"
             hx-push-url="true">
         Cancel
     </button>

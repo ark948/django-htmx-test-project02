@@ -207,10 +207,8 @@ def import_csv(request: HttpRequest) -> HttpResponse:
             context['message'] = f"{resposne['count']} contacts were added successfully."
         elif resposne['status'] == False:
             context['message'] = "Sorry, we were unable to process the file, Please check it and try again."
-        
-        return render(request, "contacts/partials/import-message.html", context=context)
-        
-    return render(request, "contacts/partials/item-data/import-file.html", context={'form': forms.CsvFileImportForm()})
+        return render(request, "contacts/partials/messages/file-action-message.html", context=context)
+    return render(request, "contacts/partials/forms/csv-file-import-form.html", context={'form': forms.CsvFileImportForm()})
 
 
 
