@@ -47,9 +47,15 @@
                     </div>
                 </li>
                 <li>
+                    {% if user.is_authenticated %}
+                    <button class="btn btn-primary btn-xs m-2 w-20">
+                        Profile
+                    </button>
+                    {% else %}
                     <button class="btn btn-primary btn-xs m-2 w-20" onclick="signup_modal.showModal()">
                         Register
                     </button>
+                    {% endif %}
                 </li>
                 <li>
                     {% if user.is_authenticated %}
