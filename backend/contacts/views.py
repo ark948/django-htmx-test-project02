@@ -189,9 +189,9 @@ def export_csv(request: HttpRequest) -> FileResponse:
         # this will perform a client side redirect, to this very same url
         # but this time, it won't be htmx request, it will be a regular request
         return HttpResponse( headers={'HX-Redirect': request.get_full_path()} )
-    queryset = request.user.contacts.all()
-    data = ContactModelResource().export(queryset)
-    response = HttpResponse(data.csv) # other available formats: json, yaml (requires tablib[yaml])
+    
+    # other available formats: json, yaml (requires tablib[yaml])
+    response = HttpResponse( services.write_csv(request.user.pk) )
     response['Content-Disposition'] = 'attachment; filename="contacts.csv"'
     return response
 

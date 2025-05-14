@@ -1,7 +1,8 @@
+from django.db.models import QuerySet
 from django.core.files import File
 from tablib import Dataset
-from accounts.models import CustomUser
 
+from accounts.models import CustomUser
 from .models import Contact
 from .resources import ContactModelResource
 
@@ -56,3 +57,21 @@ def read_csv(file: File, user: CustomUser) -> dict:
         return response
         
     return response
+
+
+
+def write_csv(user_id: int) -> Dataset:
+    try:
+        queryset: QuerySet = Contact.objects.filter(user__pk=user_id)
+    except Exception as error:
+        print("ERROR -> ", error)
+        result = None
+    
+    try:
+        data: Dataset = ContactModelResource().export(queryset)
+        result = data.csv
+    except Exception as error:
+        print("ERROR -> ", error)
+        result = None
+    
+    return result
