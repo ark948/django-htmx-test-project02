@@ -48,7 +48,7 @@
                 <div class="form-control m-4">
                     {{ form.address|add_label_class:"fieldset-legend font-bold" }}
                     {% render_field form.address class="textarea h-24" placeholder="Example: USA, Rhode Island, 52 Spooner St." %}
-                    <span class="label">Optional</span>
+                    <span class="label text-sm">Optional</span>
                     {% if form.address.errors %}
                         <label class="label text-error">
                             {{ form.address.errors }}

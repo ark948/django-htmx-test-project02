@@ -1,0 +1,74 @@
+{% load widget_tweaks %}
+<div id="item_edit_form" class="flex flex-col items-center">
+    {% if form %}
+        <h3 class="font-bold text-xl mb-4 text-green-600">Edit item</h3>
+        <form class="mb-4" id="edit_form">
+            {% csrf_token %}
+            <p class="mb-4 font-bold">
+                Primary Key: {{ item_id }}
+            </p>
+            <div class="form-control mb-4">
+                {{ form.first_name|add_label_class:"label text-black font-bold mb-2" }}
+                {% render_field form.first_name class="input" name="first_name" value=form.first_name.value %}
+                {% if form.first_name.errors %}
+                    <label class="label text-error">
+                        {{ form.first_name.errors }}
+                    </label>
+                {% endif %}
+            </div>
+            <div class="form-control mb-4">
+                {{ form.last_name|add_label_class:"label text-black font-bold mb-2" }}
+                {% render_field form.last_name class="input" name="last_name" value=form.last_name.value %}
+                {% if form.last_name.errors %}
+                    <label class="label text-error">
+                        {{ form.last_name.errors }}
+                    </label>
+                {% endif %}
+            </div>
+            <div class="form-control mb-4">
+                {{ form.email|add_label_class:"label text-black font-bold mb-2" }}
+                {% render_field form.email class="input" name="email" value=form.email.value %}
+                {% if form.email.errors %}
+                    <label class="label text-error">
+                        {{ form.email.errors }}
+                    </label>
+                {% endif %}
+            </div>
+            <div class="form-control mb-4">
+                {{ form.phone_number|add_label_class:"label text-black font-bold mb-2" }}
+                {% render_field form.phone_number class="input" name="phone_number" value=form.phone_number.value %}
+                {% if form.phone_number.errors %}
+                    <label class="label text-error">
+                        {{ form.phone_number.errors }}
+                    </label>
+                {% endif %}
+            </div>
+            <div class="form-control mb-4">
+                {{ form.address|add_label_class:"fieldset-legend font-bold" }}
+                {% render_field form.address class="textarea h-24" placeholder="Example: USA, Rhode Island, 52 Spooner St." value=form.address.value %}
+                <span class="label text-sm">Optional</span>
+                {% if form.address.errors %}
+                    <label class="label text-error">
+                        {{ form.address.errors }}
+                    </label>
+                {% endif %}
+            </div>
+            <button class="btn btn-success btn-xs btn-wide m-4"
+                    hx-post="{% url 'contacts:edit' pk=item_id %}"
+                    hx-target="#edit_response_holder"
+                    hx-on:done="console.log('EDIT OK');">
+                Confirm
+            </button>
+        </form>
+        <button 
+                class="btn btn-warning btn-xs btn-wide m-4"
+                hx-get="{% url 'contacts:list' %}"
+                hx-target="#contacts_container"
+                hx-on:clean="edit_contact_modal_container.close();"
+                hx-push-url="true">
+            Cancel
+        </button>
+    {% else %}
+        Form was not aquired.
+    {% endif %}
+</div>

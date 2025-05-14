@@ -41,10 +41,10 @@
                             <td>
                                 <button 
                                     class="btn btn-primary btn-sm opacity-100 w-14"
-                                    hx-get="{% url 'contacts:item-edit' pk=item.id %}"
+                                    hx-get="{% url 'contacts:edit' pk=item.id %}"
                                     hx-trigger="click"
-                                    hx-target="#edit_data_to_replace"
-                                    hx-on:success="item_edit_modal.showModal();">
+                                    hx-target="#edit_response_holder"
+                                    hx-on:success="edit_contact_modal_container.showModal();">
                                     Edit
                                 </button>
                             </td>

@@ -67,7 +67,7 @@ def contact_item(request: HttpRequest, pk: int) -> HttpResponse:
     return response
 
 
-
+# NOT USED
 @login_required
 def contact_edit(request: HttpRequest, pk: int) -> HttpResponse:
     context = {}
@@ -102,6 +102,38 @@ def contact_edit(request: HttpRequest, pk: int) -> HttpResponse:
     context['item_id'] = item.pk
     response = render(request, "contacts/partials/item-data/item-edit.html", context)
     response["HX-Trigger"] = 'success'
+    return response
+
+
+@login_required
+def contact_edit_v2(request: HttpRequest, pk: int) -> HttpResponse:
+    context = {}
+    try:
+        item = Contact.objects.get(pk=pk)
+    except Exception as error:
+        messages.error(request, "Sorry, we were unable to aquire this item. It may not exist.")
+        return redirect(reverse("contacts:list"))
+    if item.user != request.user:
+        messages.error(request, "Sorry, such contact does not exist, or does not belong to you.")
+        return redirect(reverse("contacts:list"))
+    if request.method == "POST":
+        form = forms.ContactItemEditForm(request.POST, instance=item)
+        if form.is_valid():
+            form.save()
+            context['message'] = "Item edited successfully."
+            response = render(request, "contacts/partials/messages/edit-success-message.html", context)
+            response["HX-Trigger"] = "done"
+            return response
+        else:
+            context['form'] = form
+            context['item_id'] = item.pk
+            response = render(request, "contacts/partials/forms/item-edit-form.html", context)
+            # response['HX-Retarget'] = "#item_edit_form"
+            return response
+    context['form'] = forms.ContactItemEditForm(initial=model_to_dict(item))
+    context['item_id'] = item.pk
+    response = render(request, "contacts/partials/forms/item-edit-form.html", context)
+    response['HX-Trigger'] = "success"
     return response
 
 

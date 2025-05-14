@@ -4,7 +4,7 @@
         <button class="btn btn-primary""
                 hx-get="{% url 'contacts:list' %}"
                 hx-target="#contacts_container"
-                hx-on:clean="item_edit_modal.close();"
+                hx-on:clean="edit_contact_modal_container.close();"
                 hx-push-url="true">
             Ok
         </button>
