@@ -1,68 +1,71 @@
 {% load widget_tweaks %}
-<div id="new_contact_form">
+<div id="new_contact_form" class="flex flex-col items-center">
     {% if form %}
-    <h3 class="font-bold text-lg mb-4 text-green-600">New Contact Item</h3>
-        <form>
-            {% csrf_token %}
-            <div class="form-control">
-                {{ form.first_name|add_label_class:"label text-black" }}
-                {% render_field form.first_name class="input" placeholder="First Name" %}
-                {% if form.first_name.errors %}
-                    <label class="label text-error">
-                        {{ form.first_name.errors }}
-                    </label>
-                {% endif %}
-            </div>
-            
-            <div class="form-control">
-                {{ form.last_name|add_label_class:"label text-black" }}
-                {% render_field form.last_name class="input" placeholder="Last Name" %}
-                {% if form.last_name.errors %}
-                    <label class="label text-error">
-                        {{ form.last_name.errors }}
-                    </label>
-                {% endif %}
-            </div>
-            
-            <div class="form-control">
-                {{ form.email|add_label_class:"label text-black" }}
-                {% render_field form.email class="input" type="email" placeholder="Email" %}
-                {% if form.email.errors %}
-                    <label class="label text-error">
-                        {{ form.email.errors }}
-                    </label>
-                {% endif %}
-            </div>
-            
-            <div class="form-control">
-                {{ form.phone_number|add_label_class:"label text-black" }}
-                {% render_field form.phone_number class="input" type="text" placeholder="mobile" %}
-                {% if form.phone_number.errors %}
-                    <label class="label text-error">
-                        {{ form.phone_number.errors }}
-                    </label>
-                {% endif %}
-            </div>
-        
-            <div class="form-control">
-                {{ form.address|add_label_class:"label text-black" }}
-                {% render_field form.address class="textarea" placeholder="address" %}
-                {% if form.address.errors %}
-                    <label class="label text-error">
-                        {{ form.address.errors }}
-                    </label>
-                {% endif %}
-            </div>
+    <h3 class="font-bold text-xl mb-4 text-green-600">New Contact Item</h3>
+        <div class="flex flex-col items-center">
+            <form class="m-2">
+                {% csrf_token %}
+                <div class="form-control m-4">
+                    {{ form.first_name|add_label_class:"label font-bold text-black mb-2" }}
+                    {% render_field form.first_name class="input" placeholder="Example: Jake" %}
+                    {% if form.first_name.errors %}
+                        <label class="label text-error">
+                            {{ form.first_name.errors }}
+                        </label>
+                    {% endif %}
+                </div>
+                
+                <div class="form-control m-4">
+                    {{ form.last_name|add_label_class:"label font-bold text-black mb-2" }}
+                    {% render_field form.last_name class="input" placeholder="Example: Anderson " %}
+                    {% if form.last_name.errors %}
+                        <label class="label text-error">
+                            {{ form.last_name.errors }}
+                        </label>
+                    {% endif %}
+                </div>
+                
+                <div class="form-control m-4">
+                    {{ form.email|add_label_class:"label font-bold text-black mb-2" }}
+                    {% render_field form.email class="input" type="email" placeholder="Example: youremail@provider.com" %}
+                    {% if form.email.errors %}
+                        <label class="label text-error">
+                            {{ form.email.errors }}
+                        </label>
+                    {% endif %}
+                </div>
+                
+                <div class="form-control m-4">
+                    {{ form.phone_number|add_label_class:"label font-bold text-black mb-2" }}
+                    {% render_field form.phone_number class="input" type="text" placeholder="Example: 5559992211" %}
+                    {% if form.phone_number.errors %}
+                        <label class="label text-error">
+                            {{ form.phone_number.errors }}
+                        </label>
+                    {% endif %}
+                </div>
 
-            <button class="btn btn-xs btn-success m-4"
-                    hx-post="{% url 'contacts:new' %}"
-                    hx-target="#response_holder"
-                    hx-swap="innerHTML">
-                Submit
-            </button>
-        </form>
-        
-        <button class="btn btn-warning btn-xs"
+                <div class="form-control m-4">
+                    {{ form.address|add_label_class:"fieldset-legend font-bold" }}
+                    {% render_field form.address class="textarea h-24" placeholder="Example: USA, Rhode Island, 52 Spooner St." %}
+                    <span class="label">Optional</span>
+                    {% if form.address.errors %}
+                        <label class="label text-error">
+                            {{ form.address.errors }}
+                        </label>
+                    {% endif %}
+                </div>
+
+                <button class="btn btn-success btn-xs btn-wide m-4"
+                        hx-post="{% url 'contacts:new' %}"
+                        hx-target="#response_holder"
+                        hx-swap="innerHTML">
+                    Submit
+                </button>
+            </form>
+        </div>
+
+        <button class="btn btn-warning btn-xs btn-wide m-4"
                 hx-get="{% url 'contacts:list' %}"
                 hx-target="#contacts_container"
                 hx-on:clean="new_contact_modal_container.close();"
