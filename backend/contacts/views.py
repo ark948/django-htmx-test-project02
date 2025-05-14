@@ -128,7 +128,7 @@ def contact_edit_v2(request: HttpRequest, pk: int) -> HttpResponse:
             context['form'] = form
             context['item_id'] = item.pk
             response = render(request, "contacts/partials/forms/item-edit-form.html", context)
-            # response['HX-Retarget'] = "#item_edit_form"
+            # response['HX-Retarget'] = "#item_edit_form" # this has no effect
             return response
     context['form'] = forms.ContactItemEditForm(initial=model_to_dict(item))
     context['item_id'] = item.pk

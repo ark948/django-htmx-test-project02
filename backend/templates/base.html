@@ -15,13 +15,59 @@
 </head>
 <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
     <div class="navbar bg-neutral text-neutral-content">
-        <a class="btn btn-ghost text-xl">DjangoStuff</a>
+        <div class="flex-1">
+            <a class="btn btn-ghost text-xl">daisyUI</a>
+        </div>
+        <div class="flex gap-2">
+            <div class="dropdown dropdown-end">
+              <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar mr-16">
+                <div class="w-10 rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                    </svg>
+                </div>
+              </div>
+              <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-80 p-2 shadow">
+                <li>
+                    <div class="text-black font-bold text-lg">
+                        <p>
+                            {% if user.is_authenticated %}
+                            Username: {{ user.username }}
+                            {% else %}
+                            Username: Anonymous
+                            {% endif %}
+                        </p>
+                        <p>
+                            {% if user.is_authenticated %}
+                            Username: {{ user.email }}
+                            {% else %}
+                            Email: Anonymous
+                            {% endif %}
+                        </p>
+                    </div>
+                </li>
+                <li>
+                    <button class="btn btn-primary btn-xs m-2 w-20" onclick="signup_modal.showModal()">
+                        Register
+                    </button>
+                </li>
+                <li>
+                    {% if user.is_authenticated %}
+                    <button class="btn btn-primary btn-xs m-2 w-20" onclick="logout_modal.showModal()">
+                        Logout
+                    </button>
+                    {% else %}
+                    <button class="btn btn-primary btn-xs m-2 w-20" onclick="login_modal.showModal()">
+                        Login
+                    </button>
+                    {% endif %}
+                </li>
+              </ul>
+            </div>
+        </div>
     </div>
     <div class="m-12">
         <div class="flex items-center">
-            <div id="user-login-status">
-                {% include 'accounts/partials/user-status.html' %}
-            </div>
             <div>
                 {% if messages %}
                     {% for message in messages %}
