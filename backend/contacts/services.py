@@ -75,3 +75,7 @@ def write_csv(user_id: int) -> Dataset:
         result = None
     
     return result
+
+
+def write_csv_include_filters():
+    pass

@@ -8,7 +8,6 @@ urlpatterns = [
     path('compound-serach/', views.compound_search, name='compound'),
     path('phone-number-search/', views.search_within_contacts_phone_number, name='phone-search'),
     path('email-search/', views.search_within_contacts_emails, name='email-search'),
-    path('export/', views.export_csv, name='export'),
     path('import/', views.import_csv, name='import'),
     path('item-detail/<int:pk>/', views.contact_item, name='item-detail'),
     path('list/', views.contacts_list, name='list'),
@@ -18,6 +17,7 @@ urlpatterns = [
 
 # New revised routes
 urlpatterns += [
+    path('revised/export/', views.export_csv_v2, name='export'),
     path('revised/new-contact/', views.new_contact_v2, name='new'),
     path('revised/delete-contact/<int:pk>/', views.delete_contact_v2, name='delete'),
     path('revised/edit-contact/<int:pk>/', views.contact_edit_v2, name='edit')

@@ -230,6 +230,20 @@ def export_csv(request: HttpRequest) -> FileResponse:
 
 
 @login_required
+def export_csv_v2(request: HttpRequest) -> FileResponse:
+    if request.htmx:
+        return HttpResponse( headers = {'HX-Redirect': request.get_full_path()} )
+    contacts_filter = ContactFilter(
+        request.GET,
+        queryset=Contact.objects.filter(user=request.user)
+    )
+    data = ContactModelResource().export(contacts_filter.qs)
+    response = HttpResponse(data.csv)
+    response['Content-Disposition'] = "attachment; filename=contacts.csv"
+    return response
+    
+
+@login_required
 def import_csv(request: HttpRequest) -> HttpResponse:
     context = {}
     if request.method == "POST":
@@ -254,7 +268,7 @@ def search_within_contacts_emails(request: HttpRequest) -> HttpResponse:
         contacts = Contact.objects.filter(user=request.user).all()
         context['results'] = [i for i in contacts if email_to_search in i.email]
         context['results_count'] = len(context['results'])
-        response = render(request, "contacts/partials/search/search-results.html", context=context)
+        response = render(request, "contacts/partials/contacts-list-container.html", context=context)
         return response
     
 
