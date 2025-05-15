@@ -253,7 +253,8 @@ def search_within_contacts_emails(request: HttpRequest) -> HttpResponse:
             return redirect(redirect("contacts:list"))
         contacts = Contact.objects.filter(user=request.user).all()
         context['results'] = [i for i in contacts if email_to_search in i.email]
-        response = render(request, "contacts/partials/search/search-result.html", context=context)
+        context['results_count'] = len(context['results'])
+        response = render(request, "contacts/partials/search/search-results.html", context=context)
         return response
     
 
@@ -267,7 +268,7 @@ def search_within_contacts_phone_number(request: HttpRequest) -> HttpResponse:
             return redirect(reverse("contacts:list"))
         contacts = Contact.objects.filter(user=request.user).all()
         context['results'] = [i for i in contacts if phone_number_to_search in i.phone_number]
-        response = render(request, "contacts/partials/search/search-result.html", context=context)
+        response = render(request, "contacts/partials/search/search-results.html", context=context)
         return response
 
 
@@ -280,7 +281,7 @@ def compound_search(request: HttpRequest) -> HttpResponse:
         e = request.POST.get('email')
         contacts = Contact.objects.filter(user=request.user).all()
         context['results'] = [i for i in contacts if p in i.phone_number and e in i.email]
-        response = render(request, "contacts/partials/search/search-result.html", context=context)
+        response = render(request, "contacts/partials/search/search-results.html", context=context)
         return response
 
 

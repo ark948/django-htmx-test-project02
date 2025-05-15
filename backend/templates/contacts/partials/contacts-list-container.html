@@ -105,7 +105,7 @@
                 class="m-4"
                 id="email_filter_form"
                 hx-post="{% url 'contacts:email-search' %}"
-                hx-target="#contacts_container"
+                hx-target="#contacts_block"
                 hx-swap="innerHTML">
                 {% csrf_token %}
                 <div class="form-control">
