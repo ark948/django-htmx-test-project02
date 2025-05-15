@@ -264,12 +264,28 @@ def search_within_contacts_emails(request: HttpRequest) -> HttpResponse:
     if request.method == "POST":
         email_to_search = request.POST.get('email', '')
         if email_to_search == "":
-            return redirect(redirect("contacts:list"))
+            return redirect(reverse("contacts:list"))
         contacts = Contact.objects.filter(user=request.user).all()
         context['results'] = [i for i in contacts if email_to_search in i.email]
         context['results_count'] = len(context['results'])
         response = render(request, "contacts/partials/contacts-list-container.html", context=context)
         return response
+    
+
+@login_required
+@require_http_methods(['POST'])
+def search_within_contacts_emails_v2(request: HttpRequest) -> HttpResponse:
+    context = {}
+    email_term = request.POST.get('email', '')
+    if not email_term:
+        messages.error(request, "Error in search. Invalid parameter.")
+        return redirect(reverse('contacts:list'))
+    contacts = Contact.objects.filter(user=request.user).all()
+    results = [i for i in contacts if email_term in i.email]
+    context['results'] = results
+    context['results_count'] = len(results)
+    response = render(request, "contacts/partials/search/search-results-container.html", context=context)
+    return response
     
 
 

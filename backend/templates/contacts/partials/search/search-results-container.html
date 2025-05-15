@@ -1,0 +1,52 @@
+{% load ir_date %}
+<div>
+    {% if message %}
+        {{ message }}
+    {% endif %}
+    {% if results_count %}
+        Found {{ results_count }} records.
+    {% endif %}
+    {% if results %}
+    <div class="overflow-x-auto">
+        <table class="table table-xs">
+          <thead>
+            <tr>
+                <th></th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>Address</th>
+                <th>Created at:</th>
+                <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in results %}
+                <tr>
+                    <th>{{ forloop.counter }}</th>
+                    <td>{{ item.first_name }}</td>
+                    <td>{{ item.last_name }}</td>
+                    <td>{{ item.email }}</td>
+                    <td>{{ item.phone_number }}</td>
+                    <td>{{ item.address }}</td>
+                    <td>{{ item.created_at|to_persian }}</td>
+                </tr>
+            {% endfor %}
+          </tbody>
+          <tfoot>
+            <tr>
+                <th></th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>Address</th>
+                <th>Created at:</th>
+                <th>Actions</th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    {% endif %}
+</div>

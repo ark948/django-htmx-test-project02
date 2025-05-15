@@ -101,21 +101,22 @@
                 Clear
             </button>
             </form>
-            <form
-                class="m-4"
-                id="email_filter_form"
-                hx-post="{% url 'contacts:email-search' %}"
-                hx-target="#contacts_block"
-                hx-swap="innerHTML">
+
+            <form class="m-4" id="email_filter_form">
                 {% csrf_token %}
                 <div class="form-control">
                     <label for="email" class="label">Search Emails:</label>
                     <input type="text" class="input input-xs" name="email" required />
                 </div>
-                <button type="submit" class="btn btn-xs btn-dash mt-2">
+                <button class="btn btn-xs btn-dash mt-2"
+                    hx-post="{% url 'contacts:email-search' %}"
+                    hx-target="#search_response_holder"
+                    hx-on:click="search_results_modal_container.showModal();"
+                    hx-swap="innerHTML">
                     Apply
                 </button>
             </form>
+            
             <form
                 id="phone_number_filter_form"
                 hx-post="{% url 'contacts:phone-search' %}"
