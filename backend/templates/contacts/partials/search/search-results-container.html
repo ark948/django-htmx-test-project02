@@ -4,11 +4,13 @@
         {{ message }}
     {% endif %}
     {% if results_count %}
-        Found {{ results_count }} records.
+        <h3 class="font-bold text-xl m-4">
+          Found {{ results_count }} records.
+        </h3>
     {% endif %}
     {% if results %}
     <div class="overflow-x-auto">
-        <table class="table table-md">
+        <table class="table table-sm">
           <thead>
             <tr>
                 <th></th>
@@ -31,6 +33,32 @@
                     <td>{{ item.phone_number }}</td>
                     <td>{{ item.address }}</td>
                     <td>{{ item.created_at|to_persian }}</td>
+                    <td>
+                      <button class="btn btn-success btn-outline btn-xs opacity-100 w-14"
+                              hx-get="{% url 'contacts:item-detail' pk=item.id %}"
+                              hx-trigger="click"
+                              hx-target="#data_to_replace"
+                              hx-on:success="item_modal.showModal();">
+                          View
+                      </button>
+                    </td>
+                    <td>
+                      <button class="btn btn-primary btn-outline btn-xs opacity-100 w-14"
+                              hx-get="{% url 'contacts:edit' pk=item.id %}"
+                              hx-trigger="click"
+                              hx-target="#edit_response_holder"
+                              hx-on:success="edit_contact_modal_container.showModal();">
+                          Edit
+                      </button>
+                  </td>
+                  <td>
+                    <button class="btn btn-error btn-outline btn-xs opacity-100 w-14"
+                            hx-delete="{% url 'contacts:delete' pk=item.id %}"
+                            hx-trigger="click"
+                            hx-target="#contacts_container">
+                        Delete
+                    </button>
+                  </td>
                 </tr>
             {% endfor %}
           </tbody>

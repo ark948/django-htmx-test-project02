@@ -313,6 +313,13 @@ def compound_search(request: HttpRequest) -> HttpResponse:
         context['results'] = [i for i in contacts if p in i.phone_number and e in i.email]
         response = render(request, "contacts/partials/search/search-results.html", context=context)
         return response
+    
+
+
+@login_required
+@require_http_methods(['PUT'])
+def item_inline_edit(requset: HttpRequest) -> HttpResponse:
+    pass
 
 
 
