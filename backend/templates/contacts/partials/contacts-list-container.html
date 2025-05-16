@@ -103,17 +103,19 @@
             </button>
             </form>
 
-            <form class="m-4" id="email_filter_form">
+            <form 
+                class="m-4" 
+                id="email_filter_form"
+                hx-post="{% url 'contacts:email-search' %}"
+                hx-target="#search_response_holder"
+                hx-swap="innerHTML"
+                hx-on:submit="search_results_modal_container.showModal();">
                 {% csrf_token %}
                 <div class="form-control">
                     <label for="email" class="label">Search Emails:</label>
                     <input type="text" class="input input-xs" name="email" required />
                 </div>
-                <button class="btn btn-xs btn-dash mt-2"
-                    hx-post="{% url 'contacts:email-search' %}"
-                    hx-target="#search_response_holder"
-                    hx-on:click="search_results_modal_container.showModal();"
-                    hx-swap="innerHTML">
+                <button class="btn btn-xs btn-dash mt-2">
                     Apply
                 </button>
             </form>

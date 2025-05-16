@@ -276,8 +276,8 @@ def search_within_contacts_emails(request: HttpRequest) -> HttpResponse:
 @require_http_methods(['POST'])
 def search_within_contacts_emails_v2(request: HttpRequest) -> HttpResponse:
     context = {}
-    email_term = request.POST.get('email', '')
-    if not email_term:
+    email_term = request.POST.get('email')
+    if not email_term: # not working
         messages.error(request, "Error in search. Invalid parameter.")
         return redirect(reverse('contacts:list'))
     contacts = Contact.objects.filter(user=request.user).all()
