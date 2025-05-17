@@ -7,6 +7,7 @@ from django.db.models import QuerySet
 
 from contacts.models import Contact
 from contacts.forms import ContactItemEditForm
+from contacts.managers import ContactModelCustomQuerySet
 
 
 @pytest.mark.django_db
@@ -34,7 +35,7 @@ def test_contacts_list_page_context_exists(user, user_contacts, client: Client):
 
     response = client.get(reverse("contacts:list"))
     assert 'filter' in response.context
-    assert type(response.context['filter'].qs) == QuerySet
+    assert type(response.context['filter'].qs) == ContactModelCustomQuerySet
     assert list(response.context['filter'].qs) == user_contacts
 
 
@@ -128,7 +129,7 @@ def test_contacts_contact_edit(user, user_one_item, client: Client):
 
     # ATTEMPTING TO UPDATE
     response = client.post( 
-            reverse("contacts:item-edit", kwargs={"pk": user_one_item.pk}),
+            reverse("contacts:edit", kwargs={"pk": user_one_item.pk}),
             data={
                 "first_name": "Bob",
                 "phone_number": user_one_item.phone_number

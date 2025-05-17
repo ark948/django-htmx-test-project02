@@ -106,6 +106,7 @@ def contact_edit(request: HttpRequest, pk: int) -> HttpResponse:
     return response
 
 
+
 @login_required
 def contact_edit_v2(request: HttpRequest, pk: int) -> HttpResponse:
     context = {}

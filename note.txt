@@ -196,7 +196,25 @@ https://github.com/HackSoftware/Django-Styleguide
 services -> where business logic lives
 
 
-IMPORTANT: Apparently, pytest fixtures values do not change
+24. Continuing with adding internationalization (en, fa) and localization
+'Accept-Language' header provided by browsers can specify a language
+- in django, USE_I18N controls both internationalization and localization
+- examples of locale names:
+it, de_AT, es, pt_BR, sr_Latn. (the language part is always lowercase, the country part is titlecase if more than one word, otherwise uppercase)
+- language code, represent the name of the language, provided by Accept-Language header, (it is case sensitive)
+(but language is usually lowercase)
+- message files that contain translation strings, they have .po file extension
+- translation string -> a literal text that can be translated
+- format file: a python module that defines the data formats for a given locale.
+
+(by default, django's internationalization hooks are turned on, which may impact performance a bit,)
+(so if you're not using I18n, it is recommended to disable it by settings, USE_I18N = False)
+
+- check the translation is activated for project in MIDDLEWARES (must include the django.middleware.locale.LocalMiddleware)
+it is recommended to not use computed values, or variables in translation strings, only actual texts and strings. (a caveat)
+comments with 'Translators' prefix, will be included in .po files.
+- for forms, models, and model forms, it's highly recommended to use lazy translation (by using gettext_lazy)
+- translation has a ton of concepts, 
 
 
 potential apps:
