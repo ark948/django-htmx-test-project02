@@ -1,5 +1,6 @@
 from typing import Any
 from http import HTTPStatus
+import csv
 from django.db.models.query import QuerySet
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
@@ -241,7 +242,31 @@ def export_csv_v2(request: HttpRequest) -> FileResponse:
     response = HttpResponse(data.csv)
     response['Content-Disposition'] = "attachment; filename=contacts.csv"
     return response
+
+
+
+@login_required
+@require_http_methods(['POST'])
+def export_email_search_results(request: HttpRequest) -> HttpResponse:
+    data = request.POST['term']
+    try:
+        contacts = Contact.objects.filter(user=request.user).all()
+        results = [i for i in contacts if data in i.email]
+    except Exception as error:
+        print("\nERROR->", error)
+        messages.error(request, "Sorry, there was a problem. This action is not possible right now.")
+        return redirect(reverse('contacts:list'))
+    response = HttpResponse(
+        content_type="text/csv",
+        headers={"Content-Disposition": 'attachment; filename="filtered_contacts.csv"'},
+    )
+    writer = csv.writer(response)
+    writer.writerow(["first_name", "last_name", "email", "phone_number", "address", "created_at"])
+    for item in results:
+        writer.writerow([item.first_name, item.last_name, item.email, item.phone_number, item.address, item.created_at])
+    return response
     
+
 
 @login_required
 def import_csv(request: HttpRequest) -> HttpResponse:
@@ -258,6 +283,7 @@ def import_csv(request: HttpRequest) -> HttpResponse:
 
 
 
+# NOT USED
 @login_required
 def search_within_contacts_emails(request: HttpRequest) -> HttpResponse:
     context = {}
@@ -284,6 +310,7 @@ def search_within_contacts_emails_v2(request: HttpRequest) -> HttpResponse:
     results = [i for i in contacts if email_term in i.email]
     context['results'] = results
     context['results_count'] = len(results)
+    context['term'] = email_term
     response = render(request, "contacts/partials/search/search-results-container.html", context=context)
     return response
     

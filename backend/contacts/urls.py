@@ -16,6 +16,7 @@ urlpatterns = [
 
 # New revised routes
 urlpatterns += [
+    path('email-search-results-export/', views.export_email_search_results, name='export-selected-emails'),
     path('email-search/', views.search_within_contacts_emails_v2, name='email-search'),
     path('revised/export/', views.export_csv_v2, name='export'),
     path('revised/new-contact/', views.new_contact_v2, name='new'),

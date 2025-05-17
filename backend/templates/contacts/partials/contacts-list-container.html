@@ -31,7 +31,7 @@
                             <td>{{ item.created_at|to_persian }}</td>
                             <td>
                                 <button 
-                                        class="btn btn-success btn-outline btn-xs opacity-100 w-14"
+                                        class="btn btn-success btn-outline btn-xs w-14"
                                         hx-get="{% url 'contacts:item-detail' pk=item.id %}"
                                         hx-trigger="click"
                                         hx-target="#data_to_replace"
@@ -41,7 +41,7 @@
                             </td>
                             <td>
                                 <button 
-                                    class="btn btn-primary btn-outline btn-xs opacity-100 w-14"
+                                    class="btn btn-primary btn-outline btn-xs w-14"
                                     hx-get="{% url 'contacts:edit' pk=item.id %}"
                                     hx-trigger="click"
                                     hx-target="#edit_response_holder"
@@ -51,7 +51,7 @@
                             </td>
                             <td>
                                 <button 
-                                    class="btn btn-error btn-outline btn-xs opacity-100 w-14"
+                                    class="btn btn-error btn-outline btn-xs w-14"
                                     hx-delete="{% url 'contacts:delete' pk=item.id %}"
                                     hx-trigger="click"
                                     hx-target="#contacts_container">
