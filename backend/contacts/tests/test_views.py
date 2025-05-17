@@ -178,3 +178,59 @@ def test_contacts_new_contact_item(user, client: Client):
     assert response.status_code == 202
     contacts = user.contacts.all()
     assert len(contacts) == 1
+
+
+# This may not be the preferred way, but it works
+@pytest.mark.django_db
+def test_total_contacts_appear_on_list_page(user, user_contacts, client: Client):
+    client.force_login(user)
+    total_contacts = len(user.contacts.all())
+   
+    assert total_contacts == 5
+
+    response = client.get(reverse('contacts:list'))
+    assert f"Total: {total_contacts}" in str(response.content)
+
+
+
+@pytest.mark.django_db
+def test_new_contact_phone_number_is_required(user, client: Client):
+    client.force_login(user)
+
+    response = client.post(
+        path = reverse('contacts:new'),
+        data = {
+            'first_name': "some_first_name",
+        },
+        headers = {'HTTP_HX-Request': 'true'}
+    )
+
+    # NO new item must be present
+    assert len(user.contacts.all()) == 0
+
+    # Making the same request, this time including the phone_number
+    response = client.post(
+        path = reverse('contacts:new'),
+        data = {
+            'first_name': "some_first_name",
+            'phone_number': '111222333'
+        },
+        headers = {'HTTP_HX-Request': 'true'}
+    )
+
+    assert response.status_code == 202
+    # This time, a new contact, must exist
+    assert len(user.contacts.all()) == 1
+
+
+
+@pytest.mark.django_db
+def test_contacts_export_csv_view(user, user_contacts, client: Client):
+    client.force_login(user)
+
+    response = client.get(
+        path = reverse("contacts:export")
+    )
+
+    assert response.headers['Content-Disposition'] == 'attachment; filename=contacts.csv'
+    assert response.status_code == 200

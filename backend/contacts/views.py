@@ -235,6 +235,7 @@ def export_csv(request: HttpRequest) -> FileResponse:
 def export_csv_v2(request: HttpRequest) -> FileResponse:
     if request.htmx:
         return HttpResponse( headers = {'HX-Redirect': request.get_full_path()} )
+    
     contacts_filter = ContactFilter(
         request.GET,
         queryset=Contact.objects.filter(user=request.user)
