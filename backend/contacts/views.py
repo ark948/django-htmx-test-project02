@@ -68,6 +68,7 @@ def contact_item(request: HttpRequest, pk: int) -> HttpResponse:
     return response
 
 
+
 # NOT USED
 @login_required
 def contact_edit(request: HttpRequest, pk: int) -> HttpResponse:
@@ -137,6 +138,7 @@ def contact_edit_v2(request: HttpRequest, pk: int) -> HttpResponse:
     response = render(request, "contacts/partials/forms/item-edit-form.html", context)
     response['HX-Trigger'] = "success"
     return response
+
 
 
 # NOT USED
@@ -216,6 +218,7 @@ def new_contact_v2(request: HttpRequest) -> HttpResponse:
 
 
 
+# NOT USED
 @login_required
 def export_csv(request: HttpRequest) -> FileResponse:
     if request.htmx:
