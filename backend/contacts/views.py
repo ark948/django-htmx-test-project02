@@ -1,11 +1,8 @@
-from typing import Any
-from http import HTTPStatus
-import csv
 from django.db.models.query import QuerySet
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.http.request import HttpRequest
-from django.http.response import HttpResponse, FileResponse, HttpResponseBadRequest
+from django.http.response import HttpResponse, FileResponse
 from django.views import generic
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import mixins
@@ -14,8 +11,10 @@ from django.forms.models import model_to_dict
 from django.views.decorators.http import require_http_methods
 from django.contrib import messages
 from neapolitan.views import CRUDView
-from tablib import Dataset
 from django.core.exceptions import PermissionDenied
+from typing import Any
+from http import HTTPStatus
+import csv
 
 
 from .models import Contact
@@ -23,6 +22,7 @@ from .resources import ContactModelResource
 from .filters import ContactFilter
 from . import forms
 from . import services
+
 
 # Create your views here.
 
@@ -172,7 +172,7 @@ def delete_contact_v2(request: HttpRequest, pk: int):
     return response
 
 
-
+# NOT USED
 @login_required
 def new_contact(request: HttpRequest) -> HttpResponse:
     if request.method == "POST":
@@ -194,7 +194,6 @@ def new_contact(request: HttpRequest) -> HttpResponse:
 
 
 
-# Rewriting new contact view
 @login_required
 def new_contact_v2(request: HttpRequest) -> HttpResponse:
     context = {}
@@ -301,6 +300,7 @@ def search_within_contacts_emails(request: HttpRequest) -> HttpResponse:
         context['results_count'] = len(context['results'])
         response = render(request, "contacts/partials/contacts-list-container.html", context=context)
         return response
+    
     
 
 @login_required
