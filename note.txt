@@ -214,7 +214,15 @@ it, de_AT, es, pt_BR, sr_Latn. (the language part is always lowercase, the count
 it is recommended to not use computed values, or variables in translation strings, only actual texts and strings. (a caveat)
 comments with 'Translators' prefix, will be included in .po files.
 - for forms, models, and model forms, it's highly recommended to use lazy translation (by using gettext_lazy)
-- translation has a ton of concepts, 
+- translation has a ton of concepts, ...
+
+
+25. Added django-extensions
+(this package provides some useful tools for django, such as shell_plus)
+> pip install django-extensions
+- add "django_extensions" to installed_apps
+- to verify installation:
+> python manage.py shell_plus
 
 
 potential apps:
