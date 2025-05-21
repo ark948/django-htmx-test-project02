@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 
 from . import views
 
@@ -21,7 +21,8 @@ urlpatterns += [
     path('revised/export/', views.export_csv_v2, name='export'),
     path('revised/new-contact/', views.new_contact_v2, name='new'),
     path('revised/delete-contact/<int:pk>/', views.delete_contact_v2, name='delete'),
-    path('revised/edit-contact/<int:pk>/', views.contact_edit_v2, name='edit')
+    path('revised/edit-contact/<int:pk>/', views.contact_edit_v2, name='edit'),
+    path('api/', include('contacts.api.urls'))
 ]
 
 # Django Neapolitan, could act as a backup, maybe
