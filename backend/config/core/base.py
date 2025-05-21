@@ -172,3 +172,6 @@ SALT_KEY = env('SALT_KEY')
 
 
 from config.settings.celery import *
+
+
+PAGE_SIZE = 5

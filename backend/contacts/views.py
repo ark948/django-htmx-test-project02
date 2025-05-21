@@ -12,11 +12,13 @@ from django.views.decorators.http import require_http_methods
 from django.contrib import messages
 from neapolitan.views import CRUDView
 from django.core.exceptions import PermissionDenied
+from django.core.paginator import Paginator
 from typing import Any
 from http import HTTPStatus
 import csv
 
 
+from config.core.base import PAGE_SIZE
 from .models import Contact
 from .resources import ContactModelResource
 from .filters import ContactFilter
@@ -33,14 +35,20 @@ def index(request: HttpRequest) -> HttpResponse:
 
 @login_required
 def contacts_list(request: HttpRequest) -> HttpResponse:
-    context = {}
     user_contacts_filter = ContactFilter(
         request.GET,
         queryset=request.user.contacts.all()
     )
-    context["filter"] = user_contacts_filter
-    context["new_contact_form"] = forms.NewConctactForm()
-    context['total_contacts'] = user_contacts_filter.qs.get_total_contacts()
+    paginator = Paginator(user_contacts_filter.qs, per_page=PAGE_SIZE)
+    page_number = request.GET.get('page', 1)
+    # page_obj = paginator.get_page(page_number)
+    page_obj = paginator.page(page_number)
+    context = {
+        'page_obj': page_obj,
+        "filter": user_contacts_filter,
+        "new_contact_form": forms.NewConctactForm(),
+        "total_contacts": user_contacts_filter.qs.get_total_contacts()
+    }
     if request.htmx:
         response = render(request, "contacts/partials/contacts-list-container.html", context)
         response['HX-Trigger'] = "clean"

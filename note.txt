@@ -225,6 +225,12 @@ comments with 'Translators' prefix, will be included in .po files.
 > python manage.py shell_plus
 
 
+
+26. adding pagination
+(we are not going with infinite scroll)
+
+
+
 potential apps:
 contacts
 finances
