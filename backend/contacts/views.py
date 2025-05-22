@@ -180,6 +180,7 @@ def delete_contact_v2(request: HttpRequest, pk: int):
     return response
 
 
+
 # NOT USED
 @login_required
 def new_contact(request: HttpRequest) -> HttpResponse:

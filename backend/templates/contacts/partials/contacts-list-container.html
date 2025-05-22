@@ -23,7 +23,7 @@
                 <tbody>
                     {% for item in page_obj %}
                         <tr class="hover:bg-base-300">
-                            <th>{{ forloop.counter }}</th>
+                            <th>{{ page_obj.start_index|add:forloop.counter0 }}</th>
                             <td>{{ item.first_name }}</td>
                             <td>{{ item.last_name }}</td>
                             <td>{{ item.email }}</td>

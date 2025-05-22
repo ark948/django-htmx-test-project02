@@ -10,6 +10,17 @@ from contacts.forms import ContactItemEditForm
 from contacts.managers import ContactModelCustomQuerySet
 
 
+
+# CRUD views
+# create ok
+# read ok
+# update ok
+# delete ok
+# csv export ok
+# csv import
+
+
+
 @pytest.mark.django_db
 def test_contacts_index(client: Client):
     response = client.get(reverse("contacts:index"))
@@ -76,7 +87,7 @@ def test_contacts_list_from_neapolitan_is_accessible_through_login(user, user_co
 
 
 @pytest.mark.django_db
-def test_contacts_contact_item_view(user, user_contacts, client: Client):
+def test_contacts_contact_item_details(user, user_contacts, client: Client):
     client.force_login(user)
     response = client.get(reverse("contacts:item-detail", kwargs={'pk': 1}))
 
