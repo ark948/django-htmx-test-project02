@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 import os
 from config.env import BASE_DIR, env
 
+from django.utils.translation import gettext_lazy as _
+
 env.read_env(os.path.join(BASE_DIR, ".env"))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -134,7 +136,19 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
+USE_L10N = True
+
 USE_TZ = True
+
+
+LANGUAGES = [
+    ("en", _("English")),
+    ("fa", _("Farsi")),
+]
+
+LOCALE_PATHS = (
+    BASE_DIR / "locale",
+ ) # where Django looks for translation files
 
 
 # Static files (CSS, JavaScript, Images)

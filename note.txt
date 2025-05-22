@@ -215,6 +215,8 @@ it is recommended to not use computed values, or variables in translation string
 comments with 'Translators' prefix, will be included in .po files.
 - for forms, models, and model forms, it's highly recommended to use lazy translation (by using gettext_lazy)
 - translation has a ton of concepts, ...
+for rtl languages, html dir attribute must be updated to rtl + lang attribute
+
 
 
 25. Added django-extensions

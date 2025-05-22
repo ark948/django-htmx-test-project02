@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block content %}
 <div id="user-login-status">
@@ -11,5 +12,9 @@
         </svg>
         <span class="text-xl font-bold">Contacts Manager</span>
     </a>
+
+    <span class="text-xl font-bold">
+        {% translate message %}
+    </span>
 </div>
 {% endblock content %}
