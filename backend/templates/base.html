@@ -3,7 +3,7 @@
 {% load django_htmx %}
 {% load i18n %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="auto">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,20 +20,18 @@
             <a class="btn btn-ghost text-xl">DjangoPIM</a>
         </div>
         <div>
-            <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
-                <input name="next" type="hidden" value="{{ redirect_to }}">
-                <select name="language">
-                    {% get_current_language as LANGUAGE_CODE %}
-                    {% get_available_languages as LANGUAGES %}
-                    {% get_language_info_list for LANGUAGES as languages %}
-                    {% for language in languages %}
-                        <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
-                            {{ language.name_local }} ({{ language.code }})
-                        </option>
-                    {% endfor %}
+            {% block language_switcher %}
+            <form method="post" action="{% url 'set_language' %}">
+                {% csrf_token %}
+                <label for="language-select">Choose your language:</label>
+                {% get_current_language as current_language %}
+                <select id="language-select" name="language">
+                  <option value="en" {% if current_language == "en" %}selected{% endif %}>English</option>
+                  <option value="fa" {% if current_language == "fa" %}selected{% endif %}>Farsi</option>
                 </select>
-                <input type="submit" value="Go">
+                <button type="submit">Switch</button>
             </form>
+            {% endblock %}
         </div>
         <div class="flex gap-2">
             <div class="dropdown dropdown-end">
