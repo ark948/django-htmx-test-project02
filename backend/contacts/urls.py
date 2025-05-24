@@ -5,6 +5,7 @@ from . import views
 app_name = 'contacts'
 
 urlpatterns = [
+    path('api/', include("contacts.api.urls")),
     path('compound-serach/', views.compound_search, name='compound'),
     path('phone-number-search/', views.search_within_contacts_phone_number, name='phone-search'),
     path('import/', views.import_csv, name='import'),
