@@ -6,6 +6,7 @@ from rest_framework.request import HttpRequest
 from rest_framework import status
 from rest_framework import permissions
 from rest_framework import viewsets
+from rest_framework import status
 from django.db.models import QuerySet
 
 from . import serializers
@@ -38,11 +39,19 @@ class ContactsViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.ContactModelSerializer
     permission_classes = ( permissions.IsAuthenticated, )
 
-    def list(self, request, *args, **kwargs):
-        queryset = Contact.objects.filter(user=request.user)
+    def list(self, request, *args, **kwargs) -> Response:
+        queryset: QuerySet = Contact.objects.filter(user=request.user)
         serializer = serializers.ContactModelSerializer(queryset, many=True)
         return Response(serializer.data)
+    
+    # this method handles POST, returns 201
+    def create(self, request: HttpRequest, *args, **kwargs) -> Response:
+        serializer = self.get_serializer(data = request.data)
+        serializer.is_valid(raise_exception = True)
+        serializer.save(user = request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    def get_queryset(self, *args, **kwargs):
+    # this may be unnecessary, not sure yet
+    def get_queryset(self, *args, **kwargs) -> QuerySet:
         qs: QuerySet = self.request.user.contacts.all()
         return qs
