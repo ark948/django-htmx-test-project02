@@ -11,8 +11,9 @@ from . import serializers
 from contacts.models import Contact
 
 
+# testsed
 class APIIndexView(APIView):
-    def get(self, request, *args, **kwargs):
+    def get(self, *args, **kwargs) -> Response:
         return Response({'message': "OK"})
     
 
@@ -21,6 +22,6 @@ class ContactsListView(ListAPIView):
     permission_classes = ( permissions.IsAuthenticated, )
     serializer_class = serializers.ContactModelSerializer
 
-    def get_queryset(self, *args, **kwargs):
+    def get_queryset(self, *args, **kwargs) -> QuerySet:
         qs: QuerySet = Contact.objects.filter(user = self.request.user)
         return qs
