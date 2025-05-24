@@ -18,9 +18,9 @@ class APIIndexView(APIView):
 
 
 class ContactsListView(ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = ( permissions.IsAuthenticated, )
     serializer_class = serializers.ContactModelSerializer
 
     def get_queryset(self, *args, **kwargs):
-        qs = Contact.objects.filter(user = self.request.user)
+        qs: QuerySet = Contact.objects.filter(user = self.request.user)
         return qs
