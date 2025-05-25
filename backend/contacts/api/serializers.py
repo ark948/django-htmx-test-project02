@@ -9,3 +9,10 @@ class ContactModelSerializer(ModelSerializer):
             'id',
             'user'
         ]
+
+
+
+class ContactDetailsSerializer(ModelSerializer):
+    class Meta:
+        model = Contact
+        fields = '__all__'

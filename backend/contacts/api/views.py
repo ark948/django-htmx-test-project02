@@ -32,7 +32,7 @@ class ContactsListView(generics.ListAPIView):
     
 
 class ContactDetailsView(generics.RetrieveAPIView):
-    serializer_class = serializers.ContactModelSerializer
+    serializer_class = serializers.ContactDetailsSerializer
     permission_classes = (
         permissions.IsAuthenticated,
         custom_permissions.IsOwner
