@@ -88,4 +88,9 @@ def test_contacts_api_contact_details_view( user, user_one_item, client: APIClie
     )
 
     assert response.status_code == 200
-    # assert response.data == model_to_dict(user_one_item)
+    assert response.data["id"] == user_one_item.id
+    assert response.data["first_name"] == user_one_item.first_name
+    assert response.data["last_name"] == user_one_item.last_name
+    assert response.data["email"] == user_one_item.email
+    assert response.data["phone_number"] == user_one_item.phone_number
+    assert response.data["address"] == user_one_item.address

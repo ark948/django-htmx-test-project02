@@ -13,12 +13,12 @@ def user():
 
 @pytest.fixture
 def user_one_item(user):
-    item = Contact(
+    item = Contact.objects.create(
         first_name = 'John',
         last_name = 'Doe',
         email = "johndoe@gmail.com",
         phone_number = '111000222',
-        address = 'USA, New York',
+        address = 'New York, USA',
         user=user
     )
     item.save()
