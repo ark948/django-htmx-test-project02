@@ -39,7 +39,7 @@ class ContactsViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.ContactModelSerializer
     permission_classes = ( permissions.IsAuthenticated, )
 
-    def list(self, request, *args, **kwargs) -> Response:
+    def list(self, request: HttpRequest, *args, **kwargs) -> Response:
         queryset: QuerySet = Contact.objects.filter(user=request.user)
         serializer = serializers.ContactModelSerializer(queryset, many=True)
         return Response(serializer.data)
