@@ -10,6 +10,7 @@ from rest_framework import status
 from django.db.models import QuerySet
 
 from . import serializers
+from . import permissions as custom_permissions
 from contacts.models import Contact
 
 
@@ -26,9 +27,19 @@ class ContactsListView(generics.ListAPIView):
     serializer_class = serializers.ContactModelSerializer
 
     def get_queryset(self, *args, **kwargs) -> QuerySet:
-        qs: QuerySet = Contact.objects.filter(user = self.request.user)
+        qs: QuerySet = Contact.objects.filter( user = self.request.user )
         return qs
     
+
+class ContactDetailsView(generics.RetrieveAPIView):
+    serializer_class = serializers.ContactModelSerializer
+    permission_classes = (
+        permissions.IsAuthenticated,
+        custom_permissions.IsOwner
+    )
+    
+    def get_queryset(self, *args, **kwargs):
+        return Contact.objects.filter( user = self.request.user )
 
 # test ok
 class ContactsViewSet(viewsets.ModelViewSet):
