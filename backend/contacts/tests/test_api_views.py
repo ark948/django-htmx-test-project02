@@ -71,3 +71,5 @@ def test_contacts_api_viewset_create( user, user_contacts ):
     response = view(request)
 
     assert response.status_code == 201
+    assert response.data["first_name"] == "someDude12345"
+    assert response.data["phone_number"] == "888777111222"
