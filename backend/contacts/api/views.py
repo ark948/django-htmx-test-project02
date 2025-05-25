@@ -41,6 +41,7 @@ class ContactDetailsView(generics.RetrieveAPIView):
     def get_queryset(self, *args, **kwargs):
         return Contact.objects.filter( user = self.request.user )
 
+
 # test ok
 class ContactsViewSet(viewsets.ModelViewSet):
     """

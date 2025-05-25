@@ -3,6 +3,7 @@ from django.test.client import Client
 from django.urls import reverse
 from pytest_django.asserts import assertTemplateUsed
 from pytest_django.asserts import assertRedirects
+from django.forms.models import model_to_dict
 from django.db.models import QuerySet
 from rest_framework.test import (
     APIClient,
@@ -73,3 +74,18 @@ def test_contacts_api_viewset_create( user, user_contacts ):
     assert response.status_code == 201
     assert response.data["first_name"] == "someDude12345"
     assert response.data["phone_number"] == "888777111222"
+
+
+
+@pytest.mark.django_db
+def test_contacts_api_contact_details_view( user, user_one_item, client: APIClient ):
+    client.force_login(user)
+    response = client.get(
+        reverse(
+            "contacts:api_item", 
+            kwargs={ 'pk': user_one_item.pk }
+        )
+    )
+
+    assert response.status_code == 200
+    # assert response.data == model_to_dict(user_one_item)
