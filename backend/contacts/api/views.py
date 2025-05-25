@@ -13,14 +13,14 @@ from . import serializers
 from contacts.models import Contact
 
 
-# testsed
+# test ok
 class APIIndexView(views.APIView):
     def get(self, *args, **kwargs) -> Response:
         return Response({'message': "OK"})
     
 
 
-# tested
+# test ok
 class ContactsListView(generics.ListAPIView):
     permission_classes = ( permissions.IsAuthenticated, )
     serializer_class = serializers.ContactModelSerializer
@@ -30,7 +30,7 @@ class ContactsListView(generics.ListAPIView):
         return qs
     
 
-
+# test ok
 class ContactsViewSet(viewsets.ModelViewSet):
     """
     This viewset automatically provides `list` and `retrieve` actions.

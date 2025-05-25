@@ -56,3 +56,18 @@ def test_contacts_api_contacts_viewset( user, user_contacts ):
     assert response.data[1]['last_name'] == user_contacts[1].last_name
     assert response.data[2]['email'] == user_contacts[2].email
     assert response.data[3]['phone_number'] == user_contacts[3].phone_number
+
+
+
+@pytest.mark.django_db
+def test_contacts_api_viewset_create( user, user_contacts ):
+    factory = APIRequestFactory()
+    request = factory.post("/contacts/api/set/list/", {
+        'first_name': "someDude12345",
+        'phone_number': "888777111222"
+    })
+    force_authenticate(request, user)
+    view = ContactsViewSet.as_view({'post': "create"})
+    response = view(request)
+
+    assert response.status_code == 201
