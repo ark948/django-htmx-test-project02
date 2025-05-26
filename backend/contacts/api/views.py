@@ -14,12 +14,15 @@ from . import permissions as custom_permissions
 from contacts.models import Contact
 
 
+# listCreateAPIView
+# RetrieveUpdateDelete
+
+
 # test ok
 class APIIndexView(views.APIView):
     def get(self, *args, **kwargs) -> Response:
         return Response({'message': "OK"})
     
-
 
 # test ok
 class ContactsListView(generics.ListAPIView):
@@ -31,6 +34,7 @@ class ContactsListView(generics.ListAPIView):
         return qs
     
 
+# test ok
 class ContactDetailsView(generics.RetrieveAPIView):
     serializer_class = serializers.ContactDetailsSerializer
     permission_classes = (
@@ -38,8 +42,39 @@ class ContactDetailsView(generics.RetrieveAPIView):
         custom_permissions.IsOwner
     )
     
-    def get_queryset(self, *args, **kwargs):
+    def get_queryset(self, *args, **kwargs) -> Contact:
         return Contact.objects.filter( user = self.request.user )
+    
+
+
+class NewContactView(generics.CreateAPIView):
+    serializer_class = serializers.CreateNewContactSerializer
+    permission_classes = ( permissions.IsAuthenticated, )
+
+    def post(self, request, *args, **kwargs):
+        data = {
+            'first_name': request.data.get('first_name'),
+            'last_name': request.data.get('last_name'),
+            'email': request.data.get('email'),
+            'phone_number': request.data.get('phone_number'),
+            'address': request.data.get('address')
+        }
+
+        serializer = serializers.CreateNewContactSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save(user=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+
+
+# in actuality, we may only need the following two generic views
+class ConactsListCreateView(generics.ListCreateAPIView):
+    pass
+
+class ContactsDetailsUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
+    pass
+
 
 
 # test ok
