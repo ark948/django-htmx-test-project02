@@ -364,6 +364,13 @@ def item_inline_edit(requset: HttpRequest) -> HttpResponse:
 
 
 
+
+@login_required
+def send_contacts_csv_to_email():
+    pass
+
+
+
 class ContactDetailView(mixins.LoginRequiredMixin, generic.DetailView):
     model = Contact
     
