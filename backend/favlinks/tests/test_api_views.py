@@ -41,3 +41,14 @@ def test_favlinks_api_websites_mulitple_objects(user, user_websites, client: API
     assert len(response.data) == 3
     assert response.data[0]['title'] == user_websites[0].title
     assert response.data[1]['url'] == user_websites[1].url
+
+
+@pytest.mark.django_db
+def test_favlinks_api_websites_item_details(user, website_dict_params, client: APIClient):
+    client.force_login(user)
+    response = client.get(reverse("favlinks:api-website-item", kwargs={'pk': website_dict_params['id']}))
+
+    assert response.status_code == 200
+    assert response.data['id'] == website_dict_params['id']
+    assert response.data['title'] == website_dict_params['title']
+    assert response.data['url'] == website_dict_params['url']
