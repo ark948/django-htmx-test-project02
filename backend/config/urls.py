@@ -29,6 +29,7 @@ urlpatterns = [
     path("__debug__/", include(debug_toolbar_urls())),
     path('accounts/', include('accounts.urls')),
     path("contacts/", include("contacts.urls")),
+    path("favlinks/", include("favlinks.urls")),
     # path("", include("home.urls")),
 ]
 
