@@ -12,6 +12,12 @@ from home.models import BaseModel
 class Category(models.Model):
     title = models.CharField(verbose_name="Title", max_length=40, null=True, blank=True)
 
+    class Meta:
+        verbose_name_plural = "Categories"
+
+    def __str__(self) -> str:
+        return f"[Category Obj {self.pk}]"
+
 
 class Website(models.Model):
     title = models.CharField(verbose_name="Title", max_length=25, null=True, blank=True)
