@@ -9,6 +9,7 @@ from . import serializers
 from favlinks.models import Website
 
 
+# test ok
 def api_index(request: HttpRequest) -> Response:
     return JsonResponse({'message': "API Index Ok."})
 
