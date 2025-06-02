@@ -21,7 +21,7 @@ class Category(models.Model):
 
 class Website(models.Model):
     title = models.CharField(verbose_name="Title", max_length=25, null=True, blank=True)
-    url = models.URLField(verbose_name="Address", unique=True, null=False, blank=False)
+    url = models.URLField(verbose_name="URL", unique=True, null=False, blank=False)
     username = models.CharField(verbose_name="Username", max_length=68, null=True, blank=True)
     password = EncryptedCharField(verbose_name="Password", null=True, blank=True)
     user = models.ForeignKey( CustomUser, on_delete=models.CASCADE, related_name='websites' ) # user.websites.all()
