@@ -2,7 +2,7 @@ from django.db.models import QuerySet
 from django.http.request import HttpRequest
 from django.http import HttpResponse, JsonResponse
 from rest_framework.response import Response
-from rest_framework import generics
+from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 
 from . import serializers
@@ -37,5 +37,5 @@ class WebsiteView(generics.ListCreateAPIView):
         serializer = serializers.WebsiteModelSerializer(data=data)
         if serializer.is_valid():
             serializer.save(user = request.user)
-            return Response(serializer.data, status=201)
-        return Response(serializer.errors, status=400)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
