@@ -9,3 +9,9 @@ class WebsiteModelSerializer(serializers.ModelSerializer):
             'id',
             'user',
         )
+
+
+class LinkModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Link
+        exclude = ( 'id' )
