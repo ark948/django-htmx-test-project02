@@ -6,6 +6,7 @@ from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 
 from . import serializers
+from . import permissions as customPermissions
 from favlinks.models import Website
 
 
@@ -14,14 +15,12 @@ def api_index(request: HttpRequest) -> Response:
     return JsonResponse({'message': "API Index Ok."})
 
 
-# listCreateAPIView
-# RetrieveUpdateDelete
-
 # test ok
 class WebsiteDetails(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = serializers.WebsiteDetailsSerializer
     permission_classes = (
         IsAuthenticated,
+        customPermissions.IsOwner,
     )
 
     def get_queryset(self, *args, **kwargs):

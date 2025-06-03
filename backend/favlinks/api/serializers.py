@@ -11,7 +11,6 @@ class WebsiteModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Website
         exclude = (
-            'id',
             'user',
         )
 
