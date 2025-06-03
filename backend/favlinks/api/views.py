@@ -17,7 +17,7 @@ def api_index(request: HttpRequest) -> Response:
 # listCreateAPIView
 # RetrieveUpdateDelete
 
-
+# test ok
 class WebsiteDetails(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = serializers.WebsiteDetailsSerializer
     permission_classes = (
@@ -27,7 +27,7 @@ class WebsiteDetails(generics.RetrieveUpdateDestroyAPIView):
     def get_queryset(self, *args, **kwargs):
         return Website.objects.filter( user = self.request.user )
 
-
+# test ok
 class WebsiteView(generics.ListCreateAPIView):
     serializer_class = serializers.WebsiteModelSerializer
     permission_classes = (

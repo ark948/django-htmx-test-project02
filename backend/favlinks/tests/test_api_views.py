@@ -52,3 +52,34 @@ def test_favlinks_api_websites_item_details(user, website_dict_params, client: A
     assert response.data['id'] == website_dict_params['id']
     assert response.data['title'] == website_dict_params['title']
     assert response.data['url'] == website_dict_params['url']
+
+
+@pytest.mark.django_db
+def test_favlinks_api_websites_list_create_new(user, client: APIClient):
+    client.force_login(user)
+    response = client.get(reverse("favlinks:api-website-list"))
+
+    assert response.status_code == 200
+    assert response.data == []
+
+    response = client.post(
+        path=reverse('favlinks:api-website-list'),
+        data={
+            'title': 'MyWebsite',
+            'url': 'https://www.some-website.com/'
+        }
+    )
+
+    assert response.status_code == 201
+    
+    response = client.get(reverse("favlinks:api-website-list"))
+
+    assert response.status_code == 200
+    assert response.data != []
+    assert len(response.data) == 1
+
+    response = client.get(reverse("favlinks:api-website-item", kwargs={'pk': 1}))
+
+    assert response.status_code == 200
+    assert response.data['title'] == 'MyWebsite'
+    assert response.data['url'] == 'https://www.some-website.com/'
