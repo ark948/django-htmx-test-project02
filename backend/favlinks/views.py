@@ -6,4 +6,4 @@ from django.http.response import HttpResponse
 
 # test ok
 def index(request: HttpRequest) -> HttpResponse:
-    return HttpResponse("Ok")
+    return render(request, "favlinks/index.html")
