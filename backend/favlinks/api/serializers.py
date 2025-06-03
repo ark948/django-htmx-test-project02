@@ -5,7 +5,9 @@ from favlinks.models import Website, Link, Category
 class WebsiteDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Website
-        fields = '__all__'
+        exclude = (
+            'user',
+        )
 
 class WebsiteModelSerializer(serializers.ModelSerializer):
     class Meta:
