@@ -7,8 +7,6 @@ from home.models import BaseModel
 
 # Create your models here.
 
-
-
 class Category(models.Model):
     title = models.CharField(verbose_name="Title", max_length=40, null=True, blank=True)
 
@@ -34,7 +32,6 @@ class Website(models.Model):
             return f"[{self.title}]"
         else:
             return f"[{self.url}]"
-
 
 
 class Link(models.Model):
