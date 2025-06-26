@@ -7,6 +7,13 @@ from home.models import BaseModel
 
 # Create your models here.
 
+class Folder(models.Model):
+    title = models.CharField(verbose_name="Title", max_length=64, null=False, blank=False)
+
+    def __str__(self) -> str:
+        return f"[Folder Obj {self.pk}]"
+
+
 class Category(models.Model):
     title = models.CharField(verbose_name="Title", max_length=40, null=True, blank=True)
 
@@ -39,6 +46,7 @@ class Link(models.Model):
     description = models.CharField(verbose_name="Description", null=True, blank=True)
     category = models.ForeignKey( Category, on_delete=models.DO_NOTHING, related_name='links', null=True ) # category.links.all()
     website = models.ForeignKey( Website, on_delete=models.CASCADE, related_name='links' ) # website.links.all()
+    folder = models.ForeignKey( Folder, on_delete=models.CASCADE, related_name='links', null=True ) # folder.links.all()
 
     class Meta:
         verbose_name_plural = "Links"
